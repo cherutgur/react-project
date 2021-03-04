@@ -4,8 +4,9 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 // app.use(express.static(path.join(__dirname+ '/client/build')));
-// console.log(__dirname+ '/client/build')
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+app.use(express.static(path.join(__dirname,'.', 'client', 'build')));
+console.log(path.join(__dirname,'.', 'client', 'build'))
 
 app.get('/getData', (req, res)=>{
     res.send({date:"data from server"})
