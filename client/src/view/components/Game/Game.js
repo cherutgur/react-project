@@ -9,10 +9,74 @@ const audios = [
 ]
 
 function Game({language}) {
+
+  // let clickable = false;
+
+const flash = (index) => {
+
+  console.log(index)
+  switch  (index) {
+    case 0:{
+      let btn= document.getElementById('blue')
+      btn.style.border = '10px solid white';
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+      break;
+    }
+    case 1:{
+      let btn= document.getElementById('red')
+      btn.style.border = '10px solid white';
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+      break;
+    }
+    case 2:{
+      let btn= document.getElementById('green')
+      btn.style.border = '10px solid white';
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+      break;
+  }
+    case 3:{
+      let btn= document.getElementById('yellow')
+      btn.style.border = '10px solid white';
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+      break;
+    }
+    default:
+     console.log('default')
+  }
+}
+
+const startGame = () => {
+
+
+  const sequence = [Math.floor(Math.random() * audios.length)]
+  console.log(sequence);
+
+
+  sequence.forEach(randomAudio =>{
+    let audio =  new Audio(audios[randomAudio])
+    audio.play()
+    flash(randomAudio);
+  })
+  // clickable = true;
+
+
+}
   
-const playAudio = (e) =>{
+const playAudio =  (e) => {
 
   // audio.play()
+
+  // if(clickable){
+  //   console.log('true');
+  // }
   let clickedColor = e.target.id;
   console.log(clickedColor);
   if(!clickedColor) throw Error;
@@ -21,27 +85,60 @@ const playAudio = (e) =>{
  
   let audio;
   switch  (clickedColor) {
-    case 'blue':
+    case 'blue':{
+      let btn = e.target;
+      console.log(btn);
+      btn.style.border = '10px solid white';
+
       audio = new Audio(audios[0])
       audio.play()
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+     
       break;
-    case 'red':
+    }
+    case 'red':{
+      let btn = e.target;
+      console.log(btn);
+      btn.style.border = '10px solid white';
       audio = new Audio(audios[1])
       audio.play()
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+     
 
       break;
-    case 'green':
+    }
+    case 'green':{
+      let btn = e.target;
+      console.log(btn);
+      btn.style.border = '10px solid white';
       audio = new Audio(audios[2])
       audio.play()
-
-
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+     
       break;
-    case 'yellow':
+  }
+
+
+    case 'yellow':{
+      let btn = e.target;
+      console.log(btn);
+      btn.style.border = '10px solid white';
       audio = new Audio(audios[3])
       audio.play()
-
-
+      setTimeout(() => {
+        btn.style.border = '';
+      }, 500);
+     
       break;
+    }
+
+ 
     default:
      console.log('default')
   }
@@ -50,7 +147,7 @@ const playAudio = (e) =>{
   console.log(language)
   return (
   <div className='board'>
-    <div className='start'>
+    <div className='start' onClick={startGame}>
       {language.startBtn}
     </div>
     <div className='row'>
