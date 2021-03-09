@@ -1,0 +1,105 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+
+  // text-align: center;
+  // display: flex;
+
+
+.board{
+
+  // border: 5px solid black;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border-radius: 100%;
+  // box-sizing: border-box;
+
+  .start{
+    position: relative;
+    top: 75%;
+    left: 25%;
+    background-color: rgb(255, 255, 255);
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: solid .2em rgb(179, 175, 175);
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family:monospace;
+    letter-spacing: .2em;
+    color:rgb(131, 131, 131);
+    cursor: pointer;
+
+    &:hover{
+      font-size:1.3em;
+      background-color:rgb(179, 175, 175);
+      border: solid .2em white;
+      color: white;
+    }
+  }
+  .row{
+
+    display: inline-block;
+  
+    .button{
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      
+    
+    }
+    
+    .red{
+      background-color: red;
+      border-bottom-left-radius: 100%;
+
+      &:hover{
+        background-color: rgb(255, 23, 151);
+        border-bottom: .5em solid rgba(255, 0, 0, 0.493) ;
+      }
+    }
+    
+    .green{
+      background-color: green;
+      border-bottom-right-radius: 100%;
+
+      &:hover{
+        background-color: rgb(21, 255, 21);
+        border-bottom: .5em solid rgba(0, 128, 0, 0.507) ;
+      }
+    }
+    
+    .blue{
+      background-color: blue;
+      border-top-left-radius: 100%;
+
+      &:hover{
+        background-color: rgb(36, 186, 255);
+        border-top: .5em solid rgba(0, 0, 255, 0.486) ;
+      }
+    }
+    
+    .yellow{
+      background-color: yellow ;
+      border-top-right-radius: 100%;
+
+      &:hover{
+        background-color:rgb(253, 253, 117);
+        border-top: .5em solid rgba(255, 255, 0, 0.493) ;
+      }
+    }
+  }
+}
+}
+
+
+
