@@ -5,9 +5,7 @@ import './Game.scss';
 
 function Game({language}) {
 
-
-
-  const startGame = () => {
+  const getRandomControler = () => {
 
     let blueControler = document.getElementById("blueControler");;
     let redControler = document.getElementById('redControler');
@@ -21,10 +19,32 @@ function Game({language}) {
       greenControler
     ]
 
-    const sequence = controlers[Math.floor(Math.random() * controlers.length)]
-    console.log(sequence);
+    return controlers[Math.floor(Math.random() * controlers.length)]
+  }
 
-    flashAndPlayAudio(sequence)
+  let sequence;
+
+  const startGame = async () => {
+    canClick = false;
+    
+    
+
+    // const sequence = controlers[Math.floor(Math.random() * controlers.length)]
+    // console.log(sequence);
+    sequence = [
+      getRandomControler(),
+    ]
+      console.log(sequence[0]);
+
+
+    for (const controler of sequence) {
+      await flashAndPlayAudio(controler,1000)
+    }
+
+    canClick = true;
+
+    
+    // flashAndPlayAudio(sequence)
   }
 
   // let clickable = false;
@@ -163,18 +183,36 @@ function Game({language}) {
 //   }
 // }
 
-function clickControler(e){
+ function clickControler(e){
+  if(!canClick) return;
   let clickedControler = e.currentTarget;
-  flashAndPlayAudio(clickedControler)
+  flashAndPlayAudio(clickedControler,500)
+
+  let expectedClick = sequence[0];
+  console.log(expectedClick);
+  if (expectedClick === clickedControler) {
+    alert('תואם')
+  }
 }
 
-function flashAndPlayAudio(controler){
-  controler.className += 'flash';
-  setTimeout(() => {
-    controler.className = controler.className.replace('flash', '') ;
-  }, 500);
-  let audio = new Audio(controler.dataset.audio)
-  audio.play();
+let canClick = false;
+
+function flashAndPlayAudio(controler,timeOut){
+
+  return new Promise((res,rej)=>{
+    let audio = new Audio(controler.dataset.audio)
+    audio.play();
+    controler.className += 'flash';
+    setTimeout(() => {
+      controler.className = controler.className.replace('flash', '') ;
+      setTimeout(() => {
+        res()
+      }, 250);
+    }, timeOut);
+
+  })
+
+
 }
 
 
