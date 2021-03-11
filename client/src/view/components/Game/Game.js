@@ -1,28 +1,26 @@
 import React, {useState,useEffect} from 'react';
 import './Game.scss';
 
-
+let sequence = [];
 
 function Game({language}) {
 
+  const [flashColor, setFlashColor] = useState('')
+
   const getRandomControler = () => {
 
-    let blueControler = document.getElementById("blueControler");;
-    let redControler = document.getElementById('redControler');
-    let yellowControler = document.getElementById('yellowControler');
-    let greenControler = document.getElementById('greenControler');
+
+   
+   
 
     const controlers = [
-      blueControler,
-      redControler,
-      yellowControler,
-      greenControler
+     "blue", 'green', 'red', 'yellow'
     ]
 
     return controlers[Math.floor(Math.random() * controlers.length)]
   }
 
-  let sequence;
+  
 
   const startGame = async () => {
     canClick = false;
@@ -31,14 +29,12 @@ function Game({language}) {
 
     // const sequence = controlers[Math.floor(Math.random() * controlers.length)]
     // console.log(sequence);
-    sequence = [
-      getRandomControler(),
-    ]
-      console.log(sequence[0]);
+    sequence = [...sequence, getRandomControler()]
+      console.log(sequence);
 
 
-    for (const controler of sequence) {
-      await flashAndPlayAudio(controler,1000)
+    for (const color of sequence) {
+      await flashAndPlayAudio(color,1000)
     }
 
     canClick = true;
@@ -197,16 +193,17 @@ function Game({language}) {
 
 let canClick = false;
 
-function flashAndPlayAudio(controler,timeOut){
+function flashAndPlayAudio(color,timeOut){
 
-  return new Promise((res,rej)=>{
-    let audio = new Audio(controler.dataset.audio)
-    audio.play();
-    controler.className += 'flash';
+  return new Promise((resolve,rej)=>{
+    // let audio = new Audio(color.dataset.audio)
+    // audio.play();
+    
     setTimeout(() => {
-      controler.className = controler.className.replace('flash', '') ;
+     setFlashColor(color)
       setTimeout(() => {
-        res()
+        setFlashColor('')
+        resolve()
       }, 250);
     }, timeOut);
 
@@ -224,12 +221,12 @@ function flashAndPlayAudio(controler,timeOut){
       {language.startBtn}
     </div>
     <div className='row'>
-      <div id='blueControler' className="button blue" onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'></div>
-      <div id='redControler' className="button red" onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'></div>
+      <div id='blueControler' className={flashColor==='blue'?"button flash":'button blue'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'></div>
+      <div id='redControler' className={flashColor==='red'?"button flash":'button red'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'></div>
     </div>
     <div className='row'>
-      <div id='yellowControler' className="button yellow" onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'></div>
-      <div id='greenControler' className="button green" onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'></div>
+      <div id='yellowControler' className={flashColor==='yellow'?"button flash":'button yellow'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'></div>
+      <div id='greenControler' className={flashColor==='green'?"button flash":'button green'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'></div>
     </div>
   </div>);
 }
