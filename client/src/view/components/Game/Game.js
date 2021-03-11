@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 import './Game.scss';
 
 let sequence = [];
+let sequence2= [];
 
 function Game({language}) {
 
@@ -23,7 +24,7 @@ function Game({language}) {
   
 
   const startGame = async () => {
-    canClick = false;
+    // canClick = false;
     
     
 
@@ -37,161 +38,62 @@ function Game({language}) {
       await flashAndPlayAudio(color,1000)
     }
 
-    canClick = true;
+    // canClick = true;
 
-    
+   sequence2 = [...sequence];
     // flashAndPlayAudio(sequence)
   }
 
-  // let clickable = false;
+  // function check(expectedColor,clickedControler){
+  //   if(expectedColor===clickedControler){
+  //     return true;
+  //   }else {
+  //     return false;
+  //   }
+  // }
 
-// const flash = (index) => {
+async function clickControler(e){
 
-//   console.log(index)
-//   switch  (index) {
-//     case 0:{
-//       let btn= document.getElementById('blue')
-//       btn.style.border = '10px solid white';
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-//       break;
-//     }
-//     case 1:{
-//       let btn= document.getElementById('red')
-//       btn.style.border = '10px solid white';
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-//       break;
-//     }
-//     case 2:{
-//       let btn= document.getElementById('green')
-//       btn.style.border = '10px solid white';
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-//       break;
-//   }
-//     case 3:{
-//       let btn= document.getElementById('yellow')
-//       btn.style.border = '10px solid white';
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-//       break;
-//     }
-//     default:
-//      console.log('default')
-//   }
-// }
+ 
+  // let first = sequence2.shift();
+  // console.log(first);
+  // console.log(sequence2);
+  let clickedControler = e.currentTarget.id;
+  console.log({clickedControler});
 
-// const startGame = () => {
+  // console.log(sequence);
 
-
-//   const sequence = [Math.floor(Math.random() * audios.length)]
-//   console.log(sequence);
-
-
-//   sequence.forEach(randomAudio =>{
-//     let audio =  new Audio(audios[randomAudio])
-//     audio.play()
-//     flash(randomAudio);
-//   })
-//   // clickable = true;
-
-
-// }
+    let expectedClick = sequence2.shift();
+    console.log({expectedClick});
   
-// const playAudio =  (e) => {
+    if(expectedClick===clickedControler){
+          console.log(true);
+          console.log(sequence2)
+          if(sequence2.length===0){
+            console.log(('סיימתיאתהרצף'));
+            startGame()
+          }
+        }else {
+          console.log('game over');
+        }
+  // sequence.forEach(color =>{
+  //   let correct = await check(color,clickedControler);
+  // })
 
-//   // audio.play()
-
-//   // if(clickable){
-//   //   console.log('true');
-//   // }
-//   let clickedColor = e.target.id;
-//   console.log(clickedColor);
-//   if(!clickedColor) throw Error;
-//   // setaudio(new Audio(audios[0]))
-//   // audio.play()
+  // if(!canClick) return;
  
-//   let audio;
-//   switch  (clickedColor) {
-//     case 'blue':{
-//       let btn = e.target;
-//       console.log(btn);
-//       let data = btn.dataset.color;
-//       console.log(data);
-//       btn.style.border = '10px solid white';
-
-//       audio = new Audio(audios[0])
-//       audio.play()
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-     
-//       break;
-//     }
-//     case 'red':{
-//       let btn = e.target;
-//       console.log(btn);
-//       btn.style.border = '10px solid white';
-//       audio = new Audio(audios[1])
-//       audio.play()
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-     
-
-//       break;
-//     }
-//     case 'green':{
-//       let btn = e.target;
-//       console.log(btn);
-//       btn.style.border = '10px solid white';
-//       audio = new Audio(audios[2])
-//       audio.play()
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-     
-//       break;
-//   }
-
-
-//     case 'yellow':{
-//       let btn = e.target;
-//       console.log(btn);
-//       btn.style.border = '10px solid white';
-//       audio = new Audio(audios[3])
-//       audio.play()
-//       setTimeout(() => {
-//         btn.style.border = '';
-//       }, 500);
-     
-//       break;
-//     }
-
  
-//     default:
-//      console.log('default')
-//   }
-// }
 
- function clickControler(e){
-  if(!canClick) return;
-  let clickedControler = e.currentTarget;
-  flashAndPlayAudio(clickedControler,500)
+  // flashAndPlayAudio(clickedControler,500)
+  // console.log(sequence);
 
-  let expectedClick = sequence[0];
-  console.log(expectedClick);
-  if (expectedClick === clickedControler) {
-    alert('תואם')
-  }
+
+  // if (expectedClick === clickedControler) {
+  //   alert('תואם')
+  // }
 }
 
-let canClick = false;
+// let canClick = false;
 
 function flashAndPlayAudio(color,timeOut){
 
@@ -214,19 +116,19 @@ function flashAndPlayAudio(color,timeOut){
 
 
 
-  console.log(language)
+  // console.log(language)
   return (
   <div className='board'>
     <div className='start' onClick={startGame}>
       {language.startBtn}
     </div>
     <div className='row'>
-      <div id='blueControler' className={flashColor==='blue'?"button flash":'button blue'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'></div>
-      <div id='redControler' className={flashColor==='red'?"button flash":'button red'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'></div>
+      <div id='blue' className={flashColor==='blue'?"button flash":'button blue'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'></div>
+      <div id='red' className={flashColor==='red'?"button flash":'button red'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'></div>
     </div>
     <div className='row'>
-      <div id='yellowControler' className={flashColor==='yellow'?"button flash":'button yellow'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'></div>
-      <div id='greenControler' className={flashColor==='green'?"button flash":'button green'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'></div>
+      <div id='yellow' className={flashColor==='yellow'?"button flash":'button yellow'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'></div>
+      <div id='green' className={flashColor==='green'?"button flash":'button green'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'></div>
     </div>
   </div>);
 }
