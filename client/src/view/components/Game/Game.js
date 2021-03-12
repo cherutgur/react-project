@@ -4,9 +4,23 @@ import './Game.scss';
 let sequence = [];
 let sequence2= [];
 
+
+let canClick = false;
+let time1 = 15;
+let canStartOver = true;
+
+
 function Game({language}) {
 
-  const [flashColor, setFlashColor] = useState('')
+
+  const [time, setTime] = useState(time1);
+  const [flashColor, setFlashColor] = useState('');
+  const [gameOver, setgameOver] = useState(false);
+  let myVar;
+
+
+  
+
 
   const getRandomControler = () => {
 
@@ -21,27 +35,73 @@ function Game({language}) {
     return controlers[Math.floor(Math.random() * controlers.length)]
   }
 
+  function startByButton(){
+    canStartOver=false;
+    startGame()
+  }
   
 
   const startGame = async () => {
-    // canClick = false;
+    console.log('starting');
+    // e.target.removeEventListener('click', startGame);
     
+    time1=16
+    canClick = false;
     
+
+    
+
 
     // const sequence = controlers[Math.floor(Math.random() * controlers.length)]
     // console.log(sequence);
     sequence = [...sequence, getRandomControler()]
       console.log(sequence);
 
-
     for (const color of sequence) {
-      await flashAndPlayAudio(color,1000)
+      await flashAndPlayAudio(color,1000);
+ 
     }
 
-    // canClick = true;
+    
 
    sequence2 = [...sequence];
     // flashAndPlayAudio(sequence)
+    
+    canClick = true;
+  
+    
+
+
+   myVar = setInterval(myTimer, 1000);
+
+   function myTimer() {
+    if(time1===0 || sequence2.length===0 || gameOver){
+      clearInterval(myVar);
+      if(time1===0){
+        setgameOver(true)
+      }
+     //  alert('game over. start a new game?');
+     //  canClick = false;
+     //  sequence = [];
+  
+    }
+     
+     time1 = time1-1
+
+       setTime(time1) 
+    
+   }
+
+  // function myStopFunction() {
+
+  // }
+
+  //   setInterval(() => {
+     
+  //   }, 1000);
+
+  //   if(time1===10) clearInterval();
+   
   }
 
   // function check(expectedColor,clickedControler){
@@ -52,9 +112,17 @@ function Game({language}) {
   //   }
   // }
 
+ 
+   
+ 
+
+
+
 async function clickControler(e){
 
- 
+
+
+   if(!canClick) return;
   // let first = sequence2.shift();
   // console.log(first);
   // console.log(sequence2);
@@ -71,16 +139,24 @@ async function clickControler(e){
           console.log(sequence2)
           if(sequence2.length===0){
             console.log(('סיימתיאתהרצף'));
+
+  
+           
             startGame()
           }
         }else {
-          console.log('game over');
+          // alert('game over. start a new game?');
+          setgameOver(true)
+          canClick = false;
+          sequence = [];
+
+          return
         }
   // sequence.forEach(color =>{
   //   let correct = await check(color,clickedControler);
   // })
 
-  // if(!canClick) return;
+
  
  
 
@@ -93,7 +169,7 @@ async function clickControler(e){
   // }
 }
 
-// let canClick = false;
+
 
 function flashAndPlayAudio(color,timeOut){
 
@@ -114,12 +190,30 @@ function flashAndPlayAudio(color,timeOut){
 
 }
 
+const startAgain = () =>{
+  console.log('ghg');
+  setgameOver(false) ;
+  canStartOver=true
+
+}
+
 
 
   // console.log(language)
   return (
+  <>
+  {
+    gameOver?
+    <div>
+      <h1>game over</h1>
+      <button onClick={startAgain}>new game</button>
+      <button>see my score</button>
+    </div>
+    : <div></div>
+  }
+  <div className='timer'>{time}</div>
   <div className='board'>
-    <div className='start' onClick={startGame}>
+    <div className='start' onClick={canStartOver?startByButton:null}>
       {language.startBtn}
     </div>
     <div className='row'>
@@ -130,7 +224,8 @@ function flashAndPlayAudio(color,timeOut){
       <div id='yellow' className={flashColor==='yellow'?"button flash":'button yellow'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'></div>
       <div id='green' className={flashColor==='green'?"button flash":'button green'} onClick={clickControler} data-audio='https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'></div>
     </div>
-  </div>);
+  </div>
+  </>);
 }
 
 export default Game;
