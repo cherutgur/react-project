@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import './App.scss';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useParams
 } from "react-router-dom";
 
 // components
 import Game from './view/components/Game/Game'
+import Login from './view/components/Login/Login'
 
+let loginUser;
 
 function App() {
+
+  
+  const [selectedOption,setSelectedOption] = useState();
+  const [user,setUser] = useState('אני');
 
   const English = {
     title: 'simon game',
@@ -21,59 +25,29 @@ function App() {
     startBtn: 'start'
   }
 
-  const Hebrew = {
-    title: 'משחק סיימון',
-    routerGame: 'משחק',
-    routerSettings: 'הגדרות',
-    startBtn: 'התחל'
-  }
+  // const Hebrew = {
+  //   title: 'משחק סיימון',
+  //   routerGame: 'משחק',
+  //   routerSettings: 'הגדרות',
+  //   startBtn: 'התחל'
+  // }
 
   const [language, setlanguage] = useState(English);
 
-  
-  useEffect(() => {
- 
-      fetch('/getData')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        
-      })
-  }, [])
-
-  function chageLang(){
-    setlanguage(Hebrew)
-  }
-
   return (
+
     <div className="App">
-      <h1>{language.title}</h1>
-      <button onClick={chageLang} >עברית</button>
       <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">{language.routerGame}</Link>
-            </li>
-            <li>
-              <Link to="/settings">{language.routerSettings}</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <Switch>
-          <Route path="/settings">
-            <Settings />
+        <Switch>
+          <Route path="/simon">
+            <Game language={language} user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/>
           </Route>
           <Route path="/">
-            <Game language={language}/>
+            <Login user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/>
           </Route>
         </Switch>
     </Router>
-
     </div>
-
   );
 }
 
@@ -87,14 +61,13 @@ export default App;
 
 
 
-function Settings() {
-  return (
-  <>
-  <h2>Settings</h2>
-  {/* <img src='' alt='h'></img> */}
-  
-  </>);
-}
 
 
 
+// הזמנים שיהיו נכונים בכל מצב דילאי
+//  הגדרות שמאפשרות לשלוט בטיימר,בשפה ואולי גם אם יהיה משחק קשיח או לא
+//חיבורלדטאבייס,חיבור עם שם משתמש ושמירת השיא
+//סידור הקודד,שמות קריאים
+//טיימר למהלא ביוז סטייט
+
+//איךאפשרלעשות כמהיוזסטיטים לclassName
