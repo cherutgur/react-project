@@ -4,39 +4,43 @@ import './Game.scss';
 let sequence = [];
 let sequenceCopyArray= [];
 let time1 = 15;
+let yy=5;
+
+function Game( {states,selectedOption,setSelectedOption,loginUser}) {
 
 
-function Game({language,user,setUser,selectedOption,setSelectedOption,loginUser}) {
-
+  const {userName,language,level,setUserName,setLanguage,setLevel} = states;
+ 
   const [time, setTime] = useState('--');
   const [flashColor, setFlashColor] = useState('');
   const [gameOver, setgameOver] = useState(false);
   const [canClick, setCanClick] = useState(false);
   const [canStartOver, setCanStartOver] = useState(true);
-  const [userName, setUserName] = useState();
+
   const [highestResult, setHighestResult] = useState(0);
   let timeInterval;
-
-  useEffect(() => {
-    setUserName(document.cookie.split('=')[1])
-  }, [])
- 
-  const getRandomControler = () => {
-    const controlers = [
-     "blue", 'green', 'red', 'yellow'
-    ]
-
-    return controlers[Math.floor(Math.random() * controlers.length)]
-  }
 
   function startByButton(){
     setCanStartOver(false)
     startGame()
   }
-  
+
   const startGame = async () => {
-    setTime(15); 
-    time1=16
+    setTime(level);
+
+
+    setTimeout(() => {
+      console.log(time);
+    }, 1000);
+    // setInterval(()=>{
+    //   // yy=level;
+    //   // yy=yy-1;
+      
+    //   setTime(time-1)
+    // }
+     
+    // , 1000) 
+    // time1=16
     setCanClick(false) ;
     sequence = [...sequence, getRandomControler()]
     console.log(sequence);
@@ -48,36 +52,48 @@ function Game({language,user,setUser,selectedOption,setSelectedOption,loginUser}
    sequenceCopyArray = [...sequence];
     setCanClick(true) ;
     
-   timeInterval = setInterval(myTimer, 1000);
+  //  timeInterval = setInterval(myTimer, 1000);
 
-   function myTimer() {
-    time1 = time1-1;
-    setTime(time1); 
-    if(time1===0 || sequenceCopyArray.length===0 || gameOver===true){
-      clearInterval(timeInterval);
-      if(time1===0){
+  //  function myTimer() {
+  //   time1 = time1-1;
+  //   setTime(time1); 
+  //   if(time1===0 || sequenceCopyArray.length===0 || gameOver===true){
+  //     clearInterval(timeInterval);
+  //     if(time1===0){
  
-        setgameOver(true);
-        time1=15;
+  //       setgameOver(true);
+  //       time1=15;
 
 
-        let currentResult = sequence.length-1;
-        if(currentResult>highestResult){
-          setHighestResult(currentResult)
-        }
+  //       let currentResult = sequence.length-1;
+  //       if(currentResult>highestResult){
+  //         setHighestResult(currentResult)
+  //       }
 
-        // currentResult>highestResult ? setHighestResult(currentResult) : null
+  //       // currentResult>highestResult ? setHighestResult(currentResult) : null
           
  
-      // setUserRecord(sequence.length);
+  //     // setUserRecord(sequence.length);
    
 
         
 
-      }
-    }
-   }
+  //     }
+  //   }
+  //  }
   }
+ 
+  const getRandomControler = () => {
+    const controlers = [
+     "blue", 'green', 'red', 'yellow'
+    ]
+
+    return controlers[Math.floor(Math.random() * controlers.length)]
+  }
+
+  
+  
+  
 
 //   useEffect(() => {
 //     fetch('/getUserLastRecord',{
@@ -179,6 +195,13 @@ const startAgain = () =>{
   setCanStartOver(true)
 }
 
+// return(
+//   <>
+//   <h1>username:{userName}</h1>
+//   <h1>language:{language}</h1>
+//   <h1>level:{level}</h1>
+//   </>
+// )
   return (
   <>
   {
@@ -205,6 +228,7 @@ const startAgain = () =>{
     <div id='green' className={canClick?flashColor==='green'?"greenFlash":'button green':flashColor==='green'?"greenFlash":'button green notActive'} onClick={clickColor}  ></div>
     <div className={canStartOver?'start':'start notActive'}  onClick={canStartOver?startByButton:null}>
       {language.startBtn}
+      start
       <div className='timer'>{time}</div>
     </div>
   </div>

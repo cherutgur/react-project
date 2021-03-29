@@ -9,44 +9,38 @@ import {
 // components
 import Game from './view/components/Game/Game'
 import Login from './view/components/Login/Login'
+import Settings from './view/components/Settings/Settings'
+import Counter from './view/components/counter'
+import Counter2 from './view/components/counter2'
 
-let loginUser;
 
 function App() {
 
-  
-  const [selectedOption,setSelectedOption] = useState();
-  const [user,setUser] = useState('אני');
 
-  const English = {
-    title: 'simon game',
-    routerGame: 'game',
-    routerSettings: 'settings',
-    startBtn: 'start'
-  }
-
-  // const Hebrew = {
-  //   title: 'משחק סיימון',
-  //   routerGame: 'משחק',
-  //   routerSettings: 'הגדרות',
-  //   startBtn: 'התחל'
-  // }
-
-  const [language, setlanguage] = useState(English);
+  const [userName,setUserName] = useState('');
+  const [language,setLanguage] = useState('English');
+  const [level,setLevel] = useState('easy');
+  const [counter,setCounter] = useState(0);
 
   return (
+
+    // <div className="App">
+    //     <Counter setCounter={setCounter} counter={counter}/>
+    //     <Counter2  counter={counter}/>
+    // </div>
 
     <div className="App">
       <Router>
         <Switch>
           <Route path="/simon">
-            <Game language={language} user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/>
+            <Game states={{userName,language,level,setUserName,setLanguage,setLevel}}/>
           </Route>
           <Route path="/">
-            <Login user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/>
+            <Settings setUserName={setUserName} setLanguage={setLanguage} setLevel={setLevel}/>
+            {/* <Login user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/> */}
           </Route>
         </Switch>
-    </Router>
+     </Router>
     </div>
   );
 }
