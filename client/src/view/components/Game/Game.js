@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import './Game.scss';
+import { useTranslation } from 'react-i18next';
 
 let sequence = [];
 let sequenceCopyArray= [];
@@ -8,7 +9,7 @@ let yy=5;
 
 function Game( {states,selectedOption,setSelectedOption,loginUser}) {
 
-
+  const { t, i18n } = useTranslation();
   const {userName,language,level,setUserName,setLanguage,setLevel} = states;
  
   const [time, setTime] = useState('--');
@@ -207,9 +208,9 @@ const startAgain = () =>{
   {
     gameOver?
     <div className='gameOver'>
-      <h1>game over</h1>
+      <h1>{t('gameOverPage.gameOver')}</h1>
       <div className='buttons'>
-      <button onClick={startAgain}>new game</button>
+      <button onClick={startAgain}>{t('gameOverPage.newGame')}</button>
       {/* <button>see my score</button> */}
       </div>
   
@@ -217,8 +218,9 @@ const startAgain = () =>{
     : 
     <>
   <div className='info'>
-    <h1>Hello {userName}!</h1>
-    <h2>your highest result in this round is {highestResult} </h2>
+    <h1>{t('gamePage.Hello')} {userName}</h1>
+    <h2>{t('gamePage.highestResult1')} {highestResult} </h2>
+    <h3>{t('gamePage.highestResult2')} {highestResult} </h3>
   </div>
 
   <div className='board'>
@@ -228,7 +230,7 @@ const startAgain = () =>{
     <div id='green' className={canClick?flashColor==='green'?"greenFlash":'button green':flashColor==='green'?"greenFlash":'button green notActive'} onClick={clickColor}  ></div>
     <div className={canStartOver?'start':'start notActive'}  onClick={canStartOver?startByButton:null}>
       {language.startBtn}
-      start
+      {t('gamePage.start')} 
       <div className='timer'>{time}</div>
     </div>
   </div>

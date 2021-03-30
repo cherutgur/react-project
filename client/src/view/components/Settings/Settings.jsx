@@ -6,13 +6,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 // let level = '';
 // let lang;
 
 function Settings({setUserName,setLanguage,setLevel}) {
   // user, setUser, selectedOption, setSelectedOption, loginUser
-
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
 
@@ -24,39 +25,47 @@ function Settings({setUserName,setLanguage,setLevel}) {
 
   }, [])
 
+  function changLang(lang){
+    console.log(lang);
+    i18n.changeLanguage(lang)
+  }
+
   return (
 
     <div className='settingsForm'>
     <form>
-      <h1>Welcome to the simon game settings</h1>
-      <label>choose lang2uage</label>
+      <h1>{t('settingPage.title')}</h1>
+      <label>{t('settingPage.lang')}</label>
       <br></br>
       <input 
         type="radio" 
         name='language' 
         value='English' 
         id='English'
-        checked={true}
-        onChange={()=>setLanguage('English')}
+        // checked={true}
+        onChange={()=> changLang('en')}
+        // onChange={()=>setLanguage('English')}
+
         />
-      <label htmlFor="English">English</label>
+      <label htmlFor="English">{t('settingPage.English')}</label>
       <input 
         type="radio" 
         name="language" 
         value='Hebrew' 
         id="Hebrew"
-        onChange={()=>setLanguage('Hebrew')}
+        onChange={()=> changLang('hi')}
+        // onChange={()=>setLanguage('Hebrew')}
         />
-      <label htmlFor="Hebrew">Hebrew</label>
-      <h3>play as</h3>
+      <label htmlFor="Hebrew">{t('settingPage.Hebrew')}</label>
+      <h3>{t('settingPage.playAs')}</h3>
       <input 
         type='text' 
-        placeholder='enter username' 
+        placeholder={t('settingPage.placeholder')} 
         name='userName' 
         required
         onChange={(e)=>setUserName(e.target.value)}
         />
-      <h3>Select a difficulty level</h3>
+      <h3>{t('settingPage.difficultyLevel')}</h3>
       <div className="level">
         <label>
           <input
@@ -67,7 +76,7 @@ function Settings({setUserName,setLanguage,setLevel}) {
             checked={true}
             onChange={()=>setLevel(15)}
           />
-         easy (15 min)
+         {t('settingPage.easy')}
         </label>
       </div>
       <div className="radio">
@@ -79,7 +88,8 @@ function Settings({setUserName,setLanguage,setLevel}) {
             // checked={level==='medium'}
             onChange={()=>setLevel(10)}
           />
-          medium (10 min)
+                   {t('settingPage.medium')}
+
         </label>
       </div>
       <div className="radio">
@@ -91,10 +101,10 @@ function Settings({setUserName,setLanguage,setLevel}) {
             // checked={level==='hard'}
          onChange={()=>setLevel(5)}
           />
-          Hard (5 min)
+             {t('settingPage.Hard')}
         </label>
       </div>
-      <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}> play</Link></button>
+      <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button>
     </form>
   </div>
 

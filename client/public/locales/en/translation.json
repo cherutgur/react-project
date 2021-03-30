@@ -1,0 +1,25 @@
+{
+  "settingPage": {
+    "title":"Welcome to the simon game settings",
+    "lang":" choose language",
+    "English":"English",
+    "Hebrew":"עברית",
+    "playAs":"play as",
+    "placeholder":"enter username",
+    "difficultyLevel":"Select a difficulty level",
+    "easy":"easy (15 min)",
+    "medium":"medium (10 min)",
+    "Hard":"Hard (5 min)",
+    "play":"play"
+  },
+  "gameOverPage": {
+    "gameOver":"game over",
+    "newGame":"new game"
+  },
+  "gamePage":{
+    "Hello":"Hello",
+    "highestResult1":"your highest result at this game",
+    "highestResult2":"your highest result in this round is",
+    "start":"start"
+  }
+}
