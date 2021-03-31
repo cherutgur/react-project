@@ -73,7 +73,7 @@ function Settings({setUserName,setLanguage,setLevel}) {
             name='Difficulty'
             type="radio"
             required
-            checked={true}
+            // checked={true}
             onChange={()=>setLevel(15)}
           />
          {t('settingPage.easy')}

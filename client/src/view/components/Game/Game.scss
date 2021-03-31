@@ -73,6 +73,7 @@ body {
     letter-spacing: .2em;
     cursor: pointer;
     transition: .3s;
+    box-shadow:  0 0 10px #000000;
 
     &:hover {
       background-image: linear-gradient(180deg, rgba(rgb(66, 66, 66), 1), rgba(black, 3));
