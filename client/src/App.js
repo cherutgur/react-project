@@ -18,6 +18,7 @@ function App() {
 
 
   const [userName,setUserName] = useState('');
+  const [user,setUser] = useState({});
   const [language,setLanguage] = useState('English');
   const [level,setLevel] = useState(15);
   const [counter,setCounter] = useState(0);
@@ -33,10 +34,10 @@ function App() {
       <Router>
         <Switch>
           <Route path="/simon">
-            <Game states={{userName,language,level,setUserName,setLanguage,setLevel}} level={level} setLevel={setLevel} />
+            <Game states={{user,userName,language,level,setUserName,setLanguage,setLevel}} level={level} setLevel={setLevel} />
           </Route>
           <Route path="/">
-            <Settings setUserName={setUserName} setLanguage={setLanguage} setLevel={setLevel}/>
+            <Settings setUserName={setUserName} setLanguage={setLanguage} setLevel={setLevel} setUser={setUser}/>
             {/* <Login user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/> */}
           </Route>
         </Switch>

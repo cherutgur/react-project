@@ -4,36 +4,56 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory
 } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 // let level = '';
 // let lang;
 
-function Settings({setUserName,setLanguage,setLevel}) {
+function Settings({setUserName,setLanguage,setLevel,setUser}) {
   // user, setUser, selectedOption, setSelectedOption, loginUser
   const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-
-    fetch('/getData')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
-
-  }, [])
+  const history = useHistory();
 
   function changLang(lang){
     console.log(lang);
     i18n.changeLanguage(lang)
   }
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let userName = e.target.children.userName.value;
+    // setUserName(userName);
+
+    fetch('/validatUserName',{
+      method: 'post',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({userName})
+       })
+    .then(response => response.json())
+    .then(({userData}) => {
+      console.log(userData);
+      setUser(userData)
+      history.push("/simon");
+      // setRecord(data.userData.record1)
+      // originalRecord = data.userData.record1;
+    });
+    
+
+
+   
+  }
+
+
   return (
 
     <div className='settingsForm'>
-    <form>
+    <form onSubmit={handleSubmit}>
       <h1>{t('settingPage.title')}</h1>
       <label>{t('settingPage.lang')}</label>
       <br></br>
@@ -63,7 +83,7 @@ function Settings({setUserName,setLanguage,setLevel}) {
         placeholder={t('settingPage.placeholder')} 
         name='userName' 
         required
-        onChange={(e)=>setUserName(e.target.value)}
+
         />
       <h3>{t('settingPage.difficultyLevel')}</h3>
       <div className="level">
@@ -73,7 +93,7 @@ function Settings({setUserName,setLanguage,setLevel}) {
             name='Difficulty'
             type="radio"
             required
-            // checked={true}
+            checked={true}
             onChange={()=>setLevel(15)}
           />
          {t('settingPage.easy')}
@@ -104,7 +124,9 @@ function Settings({setUserName,setLanguage,setLevel}) {
              {t('settingPage.Hard')}
         </label>
       </div>
-      <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button>
+
+      <button type='submit'>{t('settingPage.play')}</button>
+      {/* <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button> */}
     </form>
   </div>
 

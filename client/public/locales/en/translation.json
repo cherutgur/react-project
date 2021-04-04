@@ -20,6 +20,7 @@
     "Hello":"Hello",
     "highestResult1":"your highest result at this game",
     "highestResult2":"your highest result in this round is",
-    "start":"start"
+    "start":"start",
+    "backBtn":"back to settings"
   }
 }

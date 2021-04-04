@@ -11,20 +11,76 @@ app.use(bodyParser.json())
 const url = "mongodb+srv://cherut:7o8hgvnQ0RGslJuN@cluster0.2kopr.mongodb.net/test";
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.get('/getData', (req, res)=>{
-    res.send({date:"data from server"})
+
+app.get('/getUserData', (req, res)=>{
+    res.send({date:"data from server2"})
 })
 
-app.post('/getUserLastRecord', (req, res)=>{
-    let {userName} = req.body;
-    let last = Record.find({ 'userName':`${userName}` });
-    console.log({last});
-    res.send(JSON.stringify({last}))
+app.post('/validatUserName', async (req, res)=>{
+    try{
+        let {userName} = req.body;
+        console.log({userName});
+        let userData = await Record.findOne({ userName: userName }).exec();
+        if(userData){
+            res.send(JSON.stringify({userData}))
+        }else{
+            const user = new Record({ record1: 0, userName});
+            user.save().then((doc) => 
+            res.send({ userData:doc})
+            );
+            
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
 })
+
+app.post('/getUserLastRecord', async (req, res)=>{
+    try{
+        let {userName} = req.body;
+
+        console.log({userName});
+
+        let userData = await Record.findOne({ userName: userName }).exec();
+        console.log({userData});
+        res.send(JSON.stringify({userData}))
+    }
+    catch(err) {
+        console.log(err);
+    }
+})
+
+app.put('/updateRecord', async (req, res)=>{
+    try{
+        let {userName} = req.body;
+        let {newRecord} = req.body;
+
+       let uptateUser =  await Record.findOneAndUpdate({ userName: userName }, {record1 : newRecord})
+       console.log(uptateUser)
+       if(uptateUser){
+        res.send(JSON.stringify('successfully updated'))
+       }else{
+        res.send(JSON.stringify('user not found'))
+       }
+       
+    }
+    catch(err) {
+        console.log(err);
+    }
+
+})
+
+// A.findOneAndUpdate(conditions, update)
 
 const Record = mongoose.model('Record', {
     record1: Number,
-    userName:String
+    userName: {
+      type : String,
+      required: true,
+      unique: true,
+      minlength: 2
+    }
 });
 
 // app.post("/post", (req, res) => { 
