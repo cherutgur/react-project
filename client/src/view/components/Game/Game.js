@@ -57,8 +57,9 @@ function Game({ states }) {
     }
 
     sequenceCopyArray = [...sequence];
-    setCanClick(true);
- 
+    
+
+    playWithArrows?setCanClick(false):    setCanClick(true);
     //timer
     //When the computer finishes displaying the sequence, the timer starts running and stops by some conditions
     timeInterval = setInterval(myTimer, 1000);
@@ -143,14 +144,38 @@ function Game({ states }) {
     })
   }
 
-  async function clickColor(e) {
+  const userChoose = (event,color) => {
 
-    if (!canClick) return;
-    let clickedControler = e.currentTarget.id;
+    
+
+    // console.log(event.type);
+
+    if(event.type==='click'){
+      if (!canClick) return;
+      console.log('click');
+      let clickedColor = event.currentTarget.id;
+      clickColor(clickedColor)
+
+
+    }else{
+      console.log('type');
+      console.log(event.key);
+      console.log(color);
+      let clickedColor = color;
+      console.log(clickedColor);
+
+      clickColor(clickedColor)
+    }
+  }
+
+
+
+  async function clickColor(clickedColor) {
+
     let expectedClick = sequenceCopyArray.shift();
 
-    if (expectedClick === clickedControler) {
-       flashAndPlayAudio(clickedControler, 200);
+    if (expectedClick === clickedColor) {
+       flashAndPlayAudio(clickedColor, 200);
       if (sequenceCopyArray.length === 0) { // when the user finished the sequence;
         if (sequence.length > highestResult) { // updating the highestResult
           setHighestResult(sequence.length)
@@ -209,22 +234,28 @@ function Game({ states }) {
   let allowPlayWithArrows = e => {
     console.log('allowPlayWithArrows');
     setPlayWithArrows(true);
+    setCanClick(false)
     window.addEventListener('keydown', addArrows );
   }
 
   let addArrows = (event) => {
+
     let keypress = event.key;
   if (keypress === 'ArrowUp') {
-      flashAndPlayAudio('blue', 100)
+    userChoose(event,'blue')
+      // flashAndPlayAudio('blue', 100)
   }
   else if (keypress === 'ArrowDown') {
-    flashAndPlayAudio('green', 100)
+    userChoose(event,'green')
+    // flashAndPlayAudio('green', 100)
   }
   else if (keypress === 'ArrowLeft') {
-    flashAndPlayAudio('red', 100)
+    userChoose(event,'red')
+    // flashAndPlayAudio('red', 100)
   }
   else if (keypress === 'ArrowRight') {
-    flashAndPlayAudio('yellow', 100)
+    userChoose(event,'yellow')
+    // flashAndPlayAudio('yellow', 100)
   }
   }
 
@@ -241,18 +272,22 @@ function Game({ states }) {
           </div>
           :
           < >
-  
+
             <div className='info'>
+              <h1>{canClick?'canClick - true':'canClick - false'}</h1>
+              <h1>{playWithArrows?'playWithArrows - true':'playWithArrows - false'}</h1>
+
+              
               <h1>{t('gamePage.Hello')} {user.userName}</h1>
               <h2>{t('gamePage.highestResult1')} {record}</h2>
               <h3>{t('gamePage.highestResult2')} {highestResult} </h3>
             </div>
 
             <div className={playWithArrows?'board arrow':'board'} >
-              <div id='blue' className={canClick ? flashColor === 'blue' ? "blueFlash" : 'button blue' : flashColor === 'blue' ? "blueFlash" : 'button blue notActive'} onClick={clickColor}  ></div>
-              <div id='yellow' className={canClick ? flashColor === 'yellow' ? "yellowFlash" : 'button yellow' : flashColor === 'yellow' ? "yellowFlash" : 'button yellow notActive'} onClick={clickColor}  ></div>
-              <div id='red' className={canClick ? flashColor === 'red' ? "redFlash" : 'button red' : flashColor === 'red' ? "redFlash" : 'button red notActive'} onClick={clickColor}  ></div>
-              <div id='green' className={canClick ? flashColor === 'green' ? "greenFlash" : 'button green' : flashColor === 'green' ? "greenFlash" : 'button green notActive'} onClick={clickColor}  ></div>
+              <div id='blue' className={canClick ? flashColor === 'blue' ? "blueFlash" : 'button blue' : flashColor === 'blue' ? "blueFlash" : 'button blue notActive'} onClick={userChoose}  ></div>
+              <div id='yellow' className={canClick ? flashColor === 'yellow' ? "yellowFlash" : 'button yellow' : flashColor === 'yellow' ? "yellowFlash" : 'button yellow notActive'} onClick={userChoose}  ></div>
+              <div id='red' className={canClick ? flashColor === 'red' ? "redFlash" : 'button red' : flashColor === 'red' ? "redFlash" : 'button red notActive'} onClick={userChoose}  ></div>
+              <div id='green' className={canClick ? flashColor === 'green' ? "greenFlash" : 'button green' : flashColor === 'green' ? "greenFlash" : 'button green notActive'} onClick={userChoose}  ></div>
               <div className={canStartOver ? 'start' : 'start notActive'} onClick={canStartOver ? startByButton : null}>
                 {language.startBtn}
                 {t('gamePage.start')}
@@ -267,7 +302,15 @@ function Game({ states }) {
                   id="arrow" 
                   name="arrow" 
                   value="arrow"
-                  onChange={(e)=> e.target.checked ? allowPlayWithArrows(): setPlayWithArrows(false) }
+                  onChange={(e)=> {
+                    if(e.target.checked){
+                      allowPlayWithArrows()
+                    }else{
+                      setPlayWithArrows(false)
+                      setCanClick(false)
+                    }
+                  }
+                }
                   />
                 <label htmlFor="arrow"> play with arrows</label>
               </div>
