@@ -12,7 +12,7 @@ let originalRecord;
 
 function Game({ states }) {
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   let { user, userName, language, level, setUserName, setLanguage, setLevel } = states;
   const [timer, setTimer] = useState(level);
   const [flashColor, setFlashColor] = useState('');
@@ -35,10 +35,12 @@ function Game({ states }) {
 
   // }, [])
 
-    useEffect(() => {
-        setRecord(user.record1)
-        originalRecord = user.record1;
-    }, [])
+
+  useEffect(() => {
+    setRecord(user.record1)
+    originalRecord = user.record1;
+  }, [user])
+
 
   function startByButton() {
     setCanStartOver(false) //Disable the restart option by the start button
@@ -57,41 +59,31 @@ function Game({ states }) {
     }
 
     sequenceCopyArray = [...sequence];
-    
 
-    playWithArrows?setCanClick(false):    setCanClick(true);
+    setCanClick(true)
+    // playWithArrows ? setCanClick(false) : setCanClick(true);
+    
     //timer
     //When the computer finishes displaying the sequence, the timer starts running and stops by some conditions
     timeInterval = setInterval(myTimer, 1000);
     let updateTime = level;
-    
+
     function myTimer() {
       updateTime = updateTime - 1;
       setTimer(updateTime);
-      if (updateTime === 0 || sequenceCopyArray.length === 0 || gameOver === 'you chose the wrong color') {
-        console.log({originalRecord},{record});
-        if(record > originalRecord){
-          console.log(('נשבר שיא'));
-          
-          fetch('/updateRecord', {
-            method: 'put',
-            body: JSON.stringify({
-              userName: user.userName,
-              newRecord: record
-            }),
-            headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-            }
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-        }
 
-        console.log({gameOver});
+      if (updateTime === 0 || sequenceCopyArray.length === 0 || gameOver === 'you chose the wrong color') {
+        console.log({ originalRecord }, { record });
+        if (record > originalRecord) {
+          console.log(('נשבר שיא'));
+
+          updateRecord(user , record)
+
+        console.log({ gameOver });
         clearInterval(timeInterval);
         setTimer(level);
         if (updateTime === 0) {
-          setgameOver('tim`s up');
+          setgameOver('time`s up');
           let currentResult = sequence.length - 1;
           if (currentResult > highestResult) {
             setHighestResult(currentResult)
@@ -101,6 +93,24 @@ function Game({ states }) {
       }
     }
   }
+
+  const updateRecord = (user , record)=>{
+    fetch('/updateRecord', {
+      method: 'put',
+      body: JSON.stringify({
+        userName: user.userName,
+        newRecord: record
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+   }
+  }
+
+  
 
   const getRandomColor = () => {
     const colors = [
@@ -144,20 +154,20 @@ function Game({ states }) {
     })
   }
 
-  const userChoose = (event,color) => {
+  const userChoose = (event, color) => {
 
-    
+
 
     // console.log(event.type);
 
-    if(event.type==='click'){
+    if (event.type === 'click') {
       if (!canClick) return;
       console.log('click');
       let clickedColor = event.currentTarget.id;
       clickColor(clickedColor)
 
 
-    }else{
+    } else {
       console.log('type');
       console.log(event.key);
       console.log(color);
@@ -175,7 +185,7 @@ function Game({ states }) {
     let expectedClick = sequenceCopyArray.shift();
 
     if (expectedClick === clickedColor) {
-       flashAndPlayAudio(clickedColor, 200);
+      flashAndPlayAudio(clickedColor, 200);
       if (sequenceCopyArray.length === 0) { // when the user finished the sequence;
         if (sequence.length > highestResult) { // updating the highestResult
           setHighestResult(sequence.length)
@@ -189,22 +199,22 @@ function Game({ states }) {
         }, 1000);
       }
     } else {
-      if(record > originalRecord){
+      if (record > originalRecord) {
         console.log(('נשבר שיא'));
 
-          fetch('/updateRecord', {
-            method: 'put',
-            body: JSON.stringify({
-              userName: user.userName,
-              newRecord: record
-            }),
-            headers: {
+        fetch('/updateRecord', {
+          method: 'put',
+          body: JSON.stringify({
+            userName: user.userName,
+            newRecord: record
+          }),
+          headers: {
             'Content-type': 'application/json; charset=UTF-8'
-            }
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-             }
+          }
+        })
+          .then(response => response.json())
+          .then(data => console.log(data))
+      }
 
 
       clearInterval(timeInterval);
@@ -213,7 +223,7 @@ function Game({ states }) {
       if (currentResult > highestResult) {
         setHighestResult(currentResult)
       }
-     
+
 
       setCanClick(false);
       sequence = [];
@@ -231,33 +241,46 @@ function Game({ states }) {
     setgameOver(false);
   }
 
-  let allowPlayWithArrows = e => {
-    console.log('allowPlayWithArrows');
-    setPlayWithArrows(true);
-    setCanClick(false)
-    window.addEventListener('keydown', addArrows );
+
+
+
+
+  const togglePlayWithArrows = (e) => {
+    if (e.target.checked) {
+      if(canClick){
+        setPlayWithArrows(true);
+        setCanClick(false)
+        window.addEventListener('keydown', addArrows);
+      }
+
+    } else {
+      setPlayWithArrows(false)
+      setCanClick(false)
+      window.removeEventListener('keydown', addArrows);
+    }
   }
 
-  let addArrows = (event) => {
-
+  const addArrows = (event) => {
+    console.log('key');
     let keypress = event.key;
-  if (keypress === 'ArrowUp') {
-    userChoose(event,'blue')
+    if (keypress === 'ArrowUp') {
+      userChoose(event, 'blue')
       // flashAndPlayAudio('blue', 100)
+    }
+    else if (keypress === 'ArrowDown') {
+      userChoose(event, 'green')
+      // flashAndPlayAudio('green', 100)
+    }
+    else if (keypress === 'ArrowLeft') {
+      userChoose(event, 'red')
+      // flashAndPlayAudio('red', 100)
+    }
+    else if (keypress === 'ArrowRight') {
+      userChoose(event, 'yellow')
+      // flashAndPlayAudio('yellow', 100)
+    }
   }
-  else if (keypress === 'ArrowDown') {
-    userChoose(event,'green')
-    // flashAndPlayAudio('green', 100)
-  }
-  else if (keypress === 'ArrowLeft') {
-    userChoose(event,'red')
-    // flashAndPlayAudio('red', 100)
-  }
-  else if (keypress === 'ArrowRight') {
-    userChoose(event,'yellow')
-    // flashAndPlayAudio('yellow', 100)
-  }
-  }
+
 
   return (
     <>
@@ -272,18 +295,22 @@ function Game({ states }) {
           </div>
           :
           < >
-
             <div className='info'>
-              <h1>{canClick?'canClick - true':'canClick - false'}</h1>
-              <h1>{playWithArrows?'playWithArrows - true':'playWithArrows - false'}</h1>
-
-              
+            <label htmlFor="arrow"> play with arrows</label>
+              <input
+                type="checkbox"
+                id="arrow"
+                name="arrow"
+                value="arrow"
+                onChange={togglePlayWithArrows}
+              />
+              <h1>{canClick ? 'canClick - true' : 'canClick - false'}</h1>
+              <h1>{playWithArrows ? 'playWithArrows - true' : 'playWithArrows - false'}</h1>
               <h1>{t('gamePage.Hello')} {user.userName}</h1>
               <h2>{t('gamePage.highestResult1')} {record}</h2>
               <h3>{t('gamePage.highestResult2')} {highestResult} </h3>
             </div>
-
-            <div className={playWithArrows?'board arrow':'board'} >
+            <div className={playWithArrows ? 'board arrow' : 'board'} >
               <div id='blue' className={canClick ? flashColor === 'blue' ? "blueFlash" : 'button blue' : flashColor === 'blue' ? "blueFlash" : 'button blue notActive'} onClick={userChoose}  ></div>
               <div id='yellow' className={canClick ? flashColor === 'yellow' ? "yellowFlash" : 'button yellow' : flashColor === 'yellow' ? "yellowFlash" : 'button yellow notActive'} onClick={userChoose}  ></div>
               <div id='red' className={canClick ? flashColor === 'red' ? "redFlash" : 'button red' : flashColor === 'red' ? "redFlash" : 'button red notActive'} onClick={userChoose}  ></div>
@@ -292,31 +319,24 @@ function Game({ states }) {
                 {language.startBtn}
                 {t('gamePage.start')}
                 <div className='timer'>{timer}</div>
-               
               </div>
-       
             </div>
-            <div>
-              <input 
-                  type="checkbox" 
-                  id="arrow" 
-                  name="arrow" 
-                  value="arrow"
-                  onChange={(e)=> {
-                    if(e.target.checked){
-                      allowPlayWithArrows()
-                    }else{
-                      setPlayWithArrows(false)
-                      setCanClick(false)
-                    }
-                  }
-                }
-                  />
-                <label htmlFor="arrow"> play with arrows</label>
+
+            {/* <div className={playWithArrows ? 'board arrow' : 'board'} >
+              <div id='blue' className={canClick ? flashColor === 'blue' ? "blueFlash" : 'button blue' : flashColor === 'blue' ? "blueFlash" : 'button blue notActive'} onClick={userChoose}  ></div>
+              <div id='yellow' className={canClick ? flashColor === 'yellow' ? "yellowFlash" : 'button yellow' : flashColor === 'yellow' ? "yellowFlash" : 'button yellow notActive'} onClick={userChoose}  ></div>
+              <div id='red' className={canClick ? flashColor === 'red' ? "redFlash" : 'button red' : flashColor === 'red' ? "redFlash" : 'button red notActive'} onClick={userChoose}  ></div>
+              <div id='green' className={canClick ? flashColor === 'green' ? "greenFlash" : 'button green' : flashColor === 'green' ? "greenFlash" : 'button green notActive'} onClick={userChoose}  ></div>
+              <div className={canStartOver ? 'start' : 'start notActive'} onClick={canStartOver ? startByButton : null}>
+                {language.startBtn}
+                {t('gamePage.start')}
+                <div className='timer'>{timer}</div>
               </div>
+            </div> */}
+            <div>
+
+            </div>
             <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}><button type='submit'>{t('gamePage.backBtn')}</button></Link>
-            
-   
           </>
       }
     </>);

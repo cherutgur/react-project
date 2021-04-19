@@ -1,175 +1,119 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Settings.scss';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useHistory
 } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
-// let level = '';
-// let lang;
-
-function Settings({setUserName,setLanguage,setLevel,setUser}) {
+function Settings({ setUserName, setLanguage, setLevel, setUser }) {
   // user, setUser, selectedOption, setSelectedOption, loginUser
   const { t, i18n } = useTranslation();
   const history = useHistory();
 
-  function changLang(lang){
-    console.log(lang);
+
+  const changLang = (lang) => {
     i18n.changeLanguage(lang)
   }
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let userName = e.target.children.userName.value;
-    // setUserName(userName);
+    getUserDetailsOrCreateNewUser(userName);
+    history.push("/simon");
+  }
 
-    fetch('/validatUserName',{
+  const getUserDetailsOrCreateNewUser = (userName)=> {
+
+    fetch('/validatUserName', {
       method: 'post',
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({userName})
-       })
-    .then(response => response.json())
-    .then(({userData}) => {
-      console.log(userData);
-      setUser(userData)
-      history.push("/simon");
-      // setRecord(data.userData.record1)
-      // originalRecord = data.userData.record1;
-    });
-    
+      body: JSON.stringify({ userName })
+    })
+      .then(response => response.json())
+      .then(({ userData }) => {
+        setUser(userData)
 
-
-   
+        // setRecord(data.userData.record1)
+        // originalRecord = data.userData.record1;
+      });
   }
 
 
   return (
 
     <div className='settingsForm'>
-    <form onSubmit={handleSubmit}>
-      <h1>{t('settingPage.title')}</h1>
-      <label>{t('settingPage.lang')}</label>
-      <br></br>
-      <input 
-        type="radio" 
-        name='language' 
-        value='English' 
-        id='English'
-        // checked={true}
-        onChange={()=> changLang('en')}
-        // onChange={()=>setLanguage('English')}
+      <form onSubmit={handleSubmit}>
+        <h1>{t('settingPage.title')}</h1>
 
+        <h3>{t('settingPage.lang')}</h3>
+        <label htmlFor="English">{t('settingPage.English')}</label>
+        <input
+          type="radio"
+          name='language'
+          value='English'
+          id='English'
+          onChange={() => changLang('en')}
         />
-      <label htmlFor="English">{t('settingPage.English')}</label>
-      <input 
-        type="radio" 
-        name="language" 
-        value='Hebrew' 
-        id="Hebrew"
-        onChange={()=> changLang('hi')}
-        // onChange={()=>setLanguage('Hebrew')}
+        <label htmlFor="Hebrew">{t('settingPage.Hebrew')}</label>
+        <input
+          type="radio"
+          name="language"
+          value='Hebrew'
+          id="Hebrew"
+          onChange={() => changLang('hi')}
         />
-      <label htmlFor="Hebrew">{t('settingPage.Hebrew')}</label>
-      <h3>{t('settingPage.playAs')}</h3>
-      <input 
-        type='text' 
-        placeholder={t('settingPage.placeholder')} 
-        name='userName' 
-        required
 
+        <h3>{t('settingPage.playAs')}</h3>
+        <input
+          type='text'
+          placeholder={t('settingPage.placeholder')}
+          name='userName'
+          required
         />
-      <h3>{t('settingPage.difficultyLevel')}</h3>
-      <div className="level">
-        <label>
-          <input
-            value='easy'
-            name='Difficulty'
-            type="radio"
-            required
-            checked={true}
-            onChange={()=>setLevel(15)}
-          />
-         {t('settingPage.easy')}
-        </label>
-      </div>
-      <div className="radio">
-        <label>
-          <input
-            name='Difficulty'
-            type="radio"
-            value="medium"
-            // checked={level==='medium'}
-            onChange={()=>setLevel(10)}
-          />
-                   {t('settingPage.medium')}
 
-        </label>
-      </div>
-      <div className="radio">
-        <label>
-          <input
-            name='Difficulty'
-            type="radio"
-            value="hard"
-            // checked={level==='hard'}
-         onChange={()=>setLevel(5)}
-          />
-             {t('settingPage.Hard')}
-        </label>
-      </div>
+        <h3>{t('settingPage.difficultyLevel')}</h3>
+        <div className="level">
+          <label>
+            <input
+              value='easy'
+              name='Difficulty'
+              type="radio"
+              required
+              checked={true}
+              onChange={() => setLevel(15)}
+            />
+            {t('settingPage.easy')}
+          </label>
+        </div>
+        <div className="radio">
+          <label>
+            <input
+              name='Difficulty'
+              type="radio"
+              value="medium"
+              onChange={() => setLevel(10)}
+            />
+            {t('settingPage.medium')}
+          </label>
+        </div>
+        <div className="radio">
+          <label>
+            <input
+              name='Difficulty'
+              type="radio"
+              value="hard"
+              onChange={() => setLevel(5)}
+            />
+            {t('settingPage.Hard')}
+          </label>
+        </div>
 
-      <button type='submit'>{t('settingPage.play')}</button>
-      {/* <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button> */}
-    </form>
-  </div>
-
-    // <div className='settingsForm'>
-    //   <form >
-    //     <h1>Welcome to the simon game</h1>
-    //     <h3>play as</h3>
-    //     <input type='text' placeholder='enter username' name='userName' required onChange={onUserNameValueChange} />
-    //     <h3>Select a difficulty level</h3>
-    //     <div className="radio">
-    //       <label>
-    //         <input
-    //           value='easy'
-    //           name='Difficulty'
-    //           type="radio"
-    //           required
-    //         />
-    //        easy (15 min)
-    //       </label>
-    //     </div>
-    //     <div className="radio">
-    //       <label>
-    //         <input
-    //           name='Difficulty'
-    //           type="radio"
-    //           value="medium"
-    //         />
-    //         medium (10 min)
-    //       </label>
-    //     </div>
-    //     <div className="radio">
-    //       <label>
-    //         <input
-    //           name='Difficulty'
-    //           type="radio"
-    //         />
-    //         Hard (5 min)
-    //       </label>
-    //     </div>
-    //     <button type='submit'><Link to="/simon" style={{ 'text-decoration': 'none', 'color': 'black' }}> play</Link></button>
-
-    //   </form>
-    // </div>
+        <button type='submit'>{t('settingPage.play')}</button>
+        {/* <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button> */}
+      </form>
+    </div>
   )
 }
 
