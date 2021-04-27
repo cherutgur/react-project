@@ -47,6 +47,7 @@ function Game({ states }) {
     startGame()
   }
 
+
   const startGame = async () => {
 
     //The computer produces a sequence of colors and displays it
@@ -73,6 +74,7 @@ function Game({ states }) {
       setTimer(updateTime);
 
       if (updateTime === 0 || sequenceCopyArray.length === 0 || gameOver === 'you chose the wrong color') {
+        clearInterval(timeInterval);
         console.log({ originalRecord }, { record });
         if (record > originalRecord) {
           console.log(('נשבר שיא'));
@@ -80,7 +82,7 @@ function Game({ states }) {
           updateRecord(user , record)
 
         console.log({ gameOver });
-        clearInterval(timeInterval);
+    
         setTimer(level);
         if (updateTime === 0) {
           setgameOver('time`s up');
@@ -233,12 +235,12 @@ function Game({ states }) {
 
   const startAgain = () => {
     sequence = [];
-
-    // clearInterval(timeInterval);
+    
     setTimer(level)
     setCanStartOver(true)
     setHighestResult(0)
     setgameOver(false);
+    clearInterval(timeInterval);
   }
 
 

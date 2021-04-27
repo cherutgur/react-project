@@ -8,10 +8,9 @@ import {
 
 // components
 import Game from './view/components/Game/Game'
-import Login from './view/components/Login/Login'
+import Game2 from './view/components/Game2/Game2'
 import Settings from './view/components/Settings/Settings'
-import Counter from './view/components/counter'
-import Counter2 from './view/components/counter2'
+
 
 
 function App() {
@@ -34,11 +33,11 @@ function App() {
       <Router>
         <Switch>
           <Route path="/simon">
-            <Game states={{user,userName,language,level,setUserName,setLanguage,setLevel}} level={level} setLevel={setLevel} />
+            <Game2 user={user} level={level} setUser={setUser}/>
+            {/* <Game states={{user,userName,language,level,setUserName,setLanguage,setLevel}} level={level} setLevel={setLevel} /> */}
           </Route>
           <Route path="/">
             <Settings setUserName={setUserName} setLanguage={setLanguage} setLevel={setLevel} setUser={setUser}/>
-            {/* <Login user={user} setUser={setUser} selectedOption={selectedOption} setSelectedOption={setSelectedOption} loginUser={loginUser}/> */}
           </Route>
         </Switch>
      </Router>

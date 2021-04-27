@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Settings.scss';
 import {
   useHistory
@@ -9,7 +9,7 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
   // user, setUser, selectedOption, setSelectedOption, loginUser
   const { t, i18n } = useTranslation();
   const history = useHistory();
-
+  const [error, setError] = useState(false)
 
   const changLang = (lang) => {
     i18n.changeLanguage(lang)
@@ -18,22 +18,34 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let userName = e.target.children.userName.value;
-    getUserDetailsOrCreateNewUser(userName);
-    history.push("/simon");
+    let password = e.target.children.password.value;
+    console.log(password);
+    document.cookie = `userName=${userName}`;
+    getUserDetailsOrCreateNewUser(userName,password);
+
+    // history.push("/simon");
   }
 
-  const getUserDetailsOrCreateNewUser = (userName)=> {
 
-    fetch('/validatUserName', {
+
+  const getUserDetailsOrCreateNewUser =async (userName,password)=> {
+
+    await fetch('/validatUserName', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ userName })
+      body: JSON.stringify({ userName,password })
     })
       .then(response => response.json())
-      .then(({ userData }) => {
-        setUser(userData)
+      .then((data) => {
+        console.log({data});
+      if(data.userData){
+         setUser(data.userData);
+          console.log('user set');
+          history.push("/simon");
+      }else{setError(true)}
+
 
         // setRecord(data.userData.record1)
         // originalRecord = data.userData.record1;
@@ -54,6 +66,7 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
           name='language'
           value='English'
           id='English'
+          // checked={true}
           onChange={() => changLang('en')}
         />
         <label htmlFor="Hebrew">{t('settingPage.Hebrew')}</label>
@@ -72,6 +85,14 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
           name='userName'
           required
         />
+           <input
+          type='password'
+          placeholder={t('settingPage.placeholder2')}
+          name='password'
+          required
+        />
+
+        {error? t('settingPage.loginError'):null}
 
         <h3>{t('settingPage.difficultyLevel')}</h3>
         <div className="level">

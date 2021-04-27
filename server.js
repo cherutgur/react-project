@@ -12,6 +12,17 @@ const url = "mongodb+srv://cherut:7o8hgvnQ0RGslJuN@cluster0.2kopr.mongodb.net/te
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
+app.get('/getUsers', async (req, res) => {
+    try {
+        let users = await Record.find();
+        res.send({users})
+    } catch (error) {
+        console.log(error);
+    }
+   
+})
+
+
 app.get('/getUserData', (req, res)=>{
     res.send({date:"data from server2"})
 })
@@ -19,12 +30,20 @@ app.get('/getUserData', (req, res)=>{
 app.post('/validatUserName', async (req, res)=>{
     try{
         let {userName} = req.body;
-        console.log({userName});
+        let {password} = req.body;
+        // console.log({userName});
+        console.log({password});
+        // console.log(req.body);
         let userData = await Record.findOne({ userName: userName }).exec();
         if(userData){
-            res.send(JSON.stringify({userData}))
+            if(userData.password===password){
+                res.send(JSON.stringify({userData}))
+            }  else {
+                res.send(JSON.stringify({err:'err'}))
+            }
+
         }else{
-            const user = new Record({ record1: 0, userName});
+            const user = new Record({ record1: 0, record2: 0, record3: 0, userName, password});
             user.save().then((doc) => 
             res.send({ userData:doc})
             );
@@ -36,27 +55,56 @@ app.post('/validatUserName', async (req, res)=>{
     }
 })
 
-app.post('/getUserLastRecord', async (req, res)=>{
+app.post('/getUserDataByName', async (req, res)=>{
     try{
         let {userName} = req.body;
 
-        console.log({userName});
-
+        // console.log(req.body);
         let userData = await Record.findOne({ userName: userName }).exec();
-        console.log({userData});
-        res.send(JSON.stringify({userData}))
+        if(userData){
+            
+                res.send(JSON.stringify({userData}))
+        }
+              else {
+                res.send(JSON.stringify({err:'err'}))
+            }
+
+        
     }
     catch(err) {
         console.log(err);
     }
 })
 
+// app.post('/getUserLastRecord', async (req, res)=>{
+//     try{
+//         let {userName} = req.body;
+
+//         console.log({userName});
+
+//         let userData = await Record.findOne({ userName: userName }).exec();
+//         console.log({userData});
+//         res.send(JSON.stringify({userData}))
+//     }
+//     catch(err) {
+//         console.log(err);
+//     }
+// })
+
 app.put('/updateRecord', async (req, res)=>{
     try{
         let {userName} = req.body;
         let {newRecord} = req.body;
-
-       let uptateUser =  await Record.findOneAndUpdate({ userName: userName }, {record1 : newRecord})
+        let {level} = req.body;
+        let uptateUser;
+        if (level===15) {
+            uptateUser =  await Record.findOneAndUpdate({ userName: userName }, {record1 : newRecord})
+        }else if (level===10){
+           uptateUser =  await Record.findOneAndUpdate({ userName: userName }, {record2 : newRecord})
+        }else if (level===5){
+            uptateUser =  await Record.findOneAndUpdate({ userName: userName }, {record3 : newRecord})
+         }
+      
        console.log(uptateUser)
        if(uptateUser){
         res.send(JSON.stringify('successfully updated'))
@@ -75,12 +123,15 @@ app.put('/updateRecord', async (req, res)=>{
 
 const Record = mongoose.model('Record', {
     record1: Number,
+    record2: Number,
+    record3: Number,
     userName: {
       type : String,
       required: true,
       unique: true,
       minlength: 2
-    }
+    },
+    password:String
 });
 
 // app.post("/post", (req, res) => { 

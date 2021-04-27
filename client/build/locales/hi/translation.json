@@ -6,29 +6,21 @@
     "Hebrew": "עברית",
     "playAs": "שחק בתור",
     "placeholder": "הכנס שם משתמש",
-    "placeholder2":"הכנס סיסמה",
     "difficultyLevel": "בחר רמת קושי",
     "easy": "קל (15 שניות)",
     "medium": "בינוני (10 שניות)",
     "Hard": "קשה (5 שניות)",
-    "play": "שחק",
-    "loginError":"שם המשתמש קיים אך הסיסמה אינה נכונה. בחר שם אחר או נסה סיסמה אחרת"
-
+    "play": "שחק"
   },
   "gameOverPage": {
     "gameOver": "נגמר המשחק :(",
-    "newGame": "משחק חדש",
-    "time`s up":"נגמר הזמן",
-    "wrong color":"טעות בצבע"
+    "newGame": "משחק חדש"
   },
   "gamePage": {
     "Hello": "שלום",
-    "highestResult1": "השיא שלך בשלב הזה",
+    "highestResult1": "השיא שלך במשחק",
     "highestResult2": "התוצאה הגבוהה ביותר שלך בסיבוב הזה",
     "start": "התחל",
-    "backBtn": "חזרה להגדרות",
-    "tableTitleUserName":"שם המשתמש",
-    "tableTitleRecord":"התוצאה הטובה ביותר",
-    "level":"שלב"
+    "backBtn": "חזרה להגדרות"
   }
 }
