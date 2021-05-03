@@ -1,5 +1,5 @@
 import React from 'react'
-import '../GameOver/GameOver.scss'
+// import '../GameOver/GameOver.scss'
 import { useTranslation } from 'react-i18next';
 
 function GameOver({gameOverReason,setgameOver,setCanStartOver,setHighestResult}) {

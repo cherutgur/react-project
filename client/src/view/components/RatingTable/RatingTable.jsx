@@ -1,5 +1,6 @@
+import classNames from 'classnames';
 import React, {useEffect,useState} from 'react'
-import '../RatingTable/RatingTable.scss'
+// import '../RatingTable/RatingTable.scss'
 import { useTranslation } from 'react-i18next';
 
 function RatingTable({record,userName,level}) {
@@ -34,8 +35,12 @@ function RatingTable({record,userName,level}) {
 
 
   return (
-    <div>
-      <h1>{t('gamePage.level')} {level === 15 ? 1 : level === 10 ? 2 : 3}</h1>
+
+    // 
+
+    // // table__td
+    <div className='table'>
+      <h1 className='table__title'>{t('gamePage.level')} {level === 15 ? 1 : level === 10 ? 2 : 3}</h1>
       <table>
         <thead>
           <tr>
@@ -47,7 +52,7 @@ function RatingTable({record,userName,level}) {
           {usersToRender.map((user, index) => {
             return (
 
-              <tr key={index} style={(user.userName) === userName ? { backgroundColor: "green" } : null}>
+              <tr key={index} style={(user.userName) === userName ? { backgroundColor: "green" } : null} className={(user.userName) === userName? 'table__tr table__tr--current' : 'table__tr'}>
                 <th >{user.userName}</th>
                 <th>{
                   level === 15 ?

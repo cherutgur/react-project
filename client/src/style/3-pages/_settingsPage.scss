@@ -1,0 +1,157 @@
+body {
+  background-image: url('https://images-na.ssl-images-amazon.com/images/I/71V9%2BXkdZ3L._AC_SL1001_.jpg');
+  color: white;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.settingsForm {
+
+  @include wrapper;
+  position: absolute;
+  top: 50%;
+  left: 15vw;
+  transform: translate(0, -50%);
+  width: 50vw;
+  // position: absolute;
+  // top: 50%;
+  // transform: translate(0, -50%);
+  // width: 50vw;
+  // // // min-height: 84vh;
+  // left: 15vw;
+  // // top: 8vh;
+  // padding: 1em;
+  // // text-align: center;
+
+  // background: rgba(0, 0, 0, 0.88);
+  // border: .5em solid #000000;
+  // box-sizing: border-box;
+  // border-radius: 2em;
+
+
+  &__title {
+    @include title($yellow);
+  }
+
+  &__settingsForm__login {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+  }
+
+  &__radio {
+    // height: 6em;
+    width: 100%;
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    @include center;
+    margin: 1em 0;
+    align-items: flex-start;
+
+
+    .lang {
+      font-family: Roboto;
+      width: 40%;
+      color: $blue;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 1.2em;
+
+      input {
+        margin: .5em;
+        margin-top: .3em;
+      }
+    }
+
+    .level {
+      font-family: Roboto;
+      width: 40%;
+      color: $red;
+      font-size: 1.2em;
+      justify-content: center;
+
+
+      &__btns {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      input {
+        margin: .5em;
+        margin-top: .3em;
+      }
+    }
+  }
+
+  .button {
+    width: 40%;
+    padding: .2em;
+    // height: 84px;
+    left: calc(50% - 487px/2 - 139.5px);
+    top: 800px;
+    color: rgba(0, 0, 0, 0.815);;
+    background-image: linear-gradient(270deg, rgba($green,60), rgba(rgba(90, 90, 90, 0.384), 60));
+    // background: $green;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3em;
+    font-size: 2em;
+    border: none;
+    outline: none;
+    margin: .2em;
+    font-weight: 600;
+
+
+    &:hover {
+      background-image: linear-gradient(190deg, rgba($green,60), rgba(rgba(138, 138, 138, 0.384), 60));
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.88);;
+    }
+  }
+
+
+}
+
+
+.loginSection__description {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  line-height: 1em;
+  text-align: center;
+  letter-spacing: 0.115em;
+  margin-bottom: .7rem;
+
+}
+
+.loginSection__input {
+  width: 50%;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.788);
+  outline: none;
+  border: none;
+  padding: .5em 1em;
+  margin-left: 1em;
+  margin-bottom: .5em;
+  text-align: center;
+}
+
+img {
+  position: absolute;
+  width: 30vw;
+  height: 30vw;
+  left: 85%;
+  top:20%;
+
+  // // background: url(logo1.png);
+  transform: rotate(7.5deg);
+}

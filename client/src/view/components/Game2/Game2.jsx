@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import '../Game2/Game2.scss'
+// import '../Game2/Game2.scss'
 import {
   BrowserRouter as Router,
   Link
@@ -315,12 +315,12 @@ function Game2({ user, level, setUser }) {
         gameOver ?
           <GameOver gameOverReason={gameOver} setCanStartOver={setCanStartOver} setgameOver={setgameOver} setHighestResult={setHighestResult} />
           :
-          <>
-            <h1>{t('gamePage.Hello')} {user.userName}</h1>
-            <h2>{t('gamePage.highestResult1')} {record}</h2>
-            <h3>{t('gamePage.highestResult2')} {highestResult} </h3>
+          <div className='wrrapper'>
+            <h1 className='wrrapper__title'>{t('gamePage.Hello')} {user.userName}</h1>
+            <h3 className='wrrapper__info'>{t('gamePage.highestResult1')} {record}</h3>
+            <h3 className='wrrapper__info'>{t('gamePage.highestResult2')} {highestResult} </h3>
 
-            <div className={'board'} >
+            <div className='board'>
               <div id='blue' className={blueButtonClassNames} onClick={handleColorBtnClick}  ></div>
               <div id='yellow' className={yellowButtonClassNames} onClick={handleColorBtnClick}  ></div>
               <div id='red' className={redButtonClassNames} onClick={handleColorBtnClick}  ></div>
@@ -332,11 +332,11 @@ function Game2({ user, level, setUser }) {
             </div>
 
 
-            <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}><button type='submit'>{t('gamePage.backBtn')}</button></Link>
+            <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}><button type='submit' className='backButton button'>{t('gamePage.backBtn')}</button></Link>
             <RatingTable record={record} userName={user.userName} level={level} />
 
 
-          </>
+          </div>
       }
       {/* <label htmlFor="arrow"> play with arrows</label>
       <input

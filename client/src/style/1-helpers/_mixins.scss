@@ -1,0 +1,30 @@
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin wrapper() {
+  padding: 1em;
+  background: rgba(0, 0, 0, 0.88);
+  border: .5em solid #000000;
+  box-sizing: border-box;
+  border-radius: 2em;
+}
+
+@mixin title($color) {
+
+  position: relative;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 4vw;
+  // line-height: 3rem;
+  text-align: center;
+  letter-spacing: 0.110em;
+  margin-bottom: .5em;
+  
+  color: $color;
+}
+

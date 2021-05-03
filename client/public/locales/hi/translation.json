@@ -1,16 +1,16 @@
 {
   "settingPage": {
     "title": "ברוך הבא להגדרות המשחק",
-    "lang": "בחר שפה",
+    "lang": " שפה",
     "English": "English",
     "Hebrew": "עברית",
     "playAs": "שחק בתור",
     "placeholder": "הכנס שם משתמש",
     "placeholder2":"הכנס סיסמה",
-    "difficultyLevel": "בחר רמת קושי",
-    "easy": "קל (15 שניות)",
-    "medium": "בינוני (10 שניות)",
-    "Hard": "קשה (5 שניות)",
+    "difficultyLevel": "רמת קושי",
+    "easy": "קל",
+    "medium": "בינוני",
+    "Hard": "קשה",
     "play": "שחק",
     "loginError":"שם המשתמש קיים אך הסיסמה אינה נכונה. בחר שם אחר או נסה סיסמה אחרת"
 

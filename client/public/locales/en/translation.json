@@ -1,16 +1,16 @@
 {
   "settingPage": {
     "title":"Welcome to the simon game settings",
-    "lang":" choose language",
+    "lang":"  language",
     "English":"English",
     "Hebrew":"עברית",
     "playAs":"play as",
     "placeholder":"enter username",
     "placeholder2":"enter password",
-    "difficultyLevel":"Select a difficulty level",
-    "easy":"easy (15 min)",
-    "medium":"medium (10 min)",
-    "Hard":"Hard (5 min)",
+    "difficultyLevel":"Level",
+    "easy":"easy",
+    "medium":"medium",
+    "Hard":"Hard",
     "play":"play",
     "loginError":"Username exists but the password is incorrect. Choose a different Username or try a different password"
   },

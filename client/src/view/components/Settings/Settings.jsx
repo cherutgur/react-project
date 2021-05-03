@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import './Settings.scss';
+import React, { useState, useEffect } from 'react';
+// import './Settings.scss';
 import {
   useHistory
 } from "react-router-dom";
@@ -21,30 +21,30 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
     let password = e.target.children.password.value;
     console.log(password);
     document.cookie = `userName=${userName}`;
-    getUserDetailsOrCreateNewUser(userName,password);
+    getUserDetailsOrCreateNewUser(userName, password);
 
     // history.push("/simon");
   }
 
 
 
-  const getUserDetailsOrCreateNewUser =async (userName,password)=> {
+  const getUserDetailsOrCreateNewUser = async (userName, password) => {
 
     await fetch('/validatUserName', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ userName,password })
+      body: JSON.stringify({ userName, password })
     })
       .then(response => response.json())
       .then((data) => {
-        console.log({data});
-      if(data.userData){
-         setUser(data.userData);
+        console.log({ data });
+        if (data.userData) {
+          setUser(data.userData);
           console.log('user set');
           history.push("/simon");
-      }else{setError(true)}
+        } else { setError(true) }
 
 
         // setRecord(data.userData.record1)
@@ -57,84 +57,107 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
 
     <div className='settingsForm'>
       <form onSubmit={handleSubmit}>
-        <h1>{t('settingPage.title')}</h1>
 
-        <h3>{t('settingPage.lang')}</h3>
-        <label htmlFor="English">{t('settingPage.English')}</label>
-        <input
-          type="radio"
-          name='language'
-          value='English'
-          id='English'
-          // checked={true}
-          onChange={() => changLang('en')}
-        />
-        <label htmlFor="Hebrew">{t('settingPage.Hebrew')}</label>
-        <input
-          type="radio"
-          name="language"
-          value='Hebrew'
-          id="Hebrew"
-          onChange={() => changLang('hi')}
-        />
+        <h1 className='settingsForm__title'>{t('settingPage.title')}</h1>
 
-        <h3>{t('settingPage.playAs')}</h3>
-        <input
+        {/* <div className='settingsForm__login'> */}
+        <h3 className='loginSection__description'>{t('settingPage.playAs')}</h3>
+        <input className='loginSection__input'
           type='text'
           placeholder={t('settingPage.placeholder')}
           name='userName'
           required
         />
-           <input
+        <input className='loginSection__input'
           type='password'
           placeholder={t('settingPage.placeholder2')}
           name='password'
           required
         />
+        <p className='loginSection__errMesagge'>
+          {error ? t('settingPage.loginError') : null}
+        </p>
 
-        {error? t('settingPage.loginError'):null}
 
-        <h3>{t('settingPage.difficultyLevel')}</h3>
-        <div className="level">
-          <label>
+        <div className='settingsForm__radio'>
+
+          <div className='lang'>
+            <h3>{t('settingPage.lang')}</h3>
+            <label htmlFor="English">{t('settingPage.English')}
             <input
-              value='easy'
-              name='Difficulty'
               type="radio"
-              required
-              checked={true}
-              onChange={() => setLevel(15)}
+              name='language'
+              value='English'
+              id='English'
+              // checked={true}
+              onChange={() => changLang('en')}
             />
-            {t('settingPage.easy')}
-          </label>
-        </div>
-        <div className="radio">
-          <label>
+            </label>
+            <label htmlFor="Hebrew">{t('settingPage.Hebrew')}
             <input
-              name='Difficulty'
               type="radio"
-              value="medium"
-              onChange={() => setLevel(10)}
+              name="language"
+              value='Hebrew'
+              id="Hebrew"
+              onChange={() => changLang('hi')}
             />
-            {t('settingPage.medium')}
-          </label>
-        </div>
-        <div className="radio">
-          <label>
-            <input
-              name='Difficulty'
-              type="radio"
-              value="hard"
-              onChange={() => setLevel(5)}
-            />
-            {t('settingPage.Hard')}
-          </label>
+            </label>
+          </div>
+
+          <div className='level'>
+            <h3>{t('settingPage.difficultyLevel')}</h3>
+
+            <div className='level__btns'>
+              <div >
+                <label>
+                  <input
+                    value='easy'
+                    name='Difficulty'
+                    type="radio"
+                    required
+                    checked={true}
+                    onChange={() => setLevel(15)}
+                  />
+
+                  {t('settingPage.easy')}
+                </label>
+              </div>
+
+              <div className="radio">
+                <label>
+                  <input
+                    name='Difficulty'
+                    type="radio"
+                    value="medium"
+                    onChange={() => setLevel(10)}
+                  />
+
+                  {t('settingPage.medium')}
+                </label>
+              </div>
+
+              <div className="radio">
+                <label>
+                  <input
+                    name='Difficulty'
+                    type="radio"
+                    value="hard"
+                    onChange={() => setLevel(5)}
+                  />
+
+                  {t('settingPage.Hard')}
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <button type='submit'>{t('settingPage.play')}</button>
-        {/* <button type='submit'><Link to="/simon" style={{ 'textDecoration': 'none', 'color': 'black' }}>{t('settingPage.play')}</Link></button> */}
+        <button type='submit'className='button'>{t('settingPage.play')}</button>
+
       </form>
+      <img src='../../../../../logo1.png' alt='simonImg'></img>
     </div>
+
   )
 }
 
