@@ -1,26 +1,34 @@
 {
   "settingPage": {
     "title": "ברוך הבא להגדרות המשחק",
-    "lang": "בחר שפה",
+    "lang": " שפה",
     "English": "English",
     "Hebrew": "עברית",
     "playAs": "שחק בתור",
     "placeholder": "הכנס שם משתמש",
-    "difficultyLevel": "בחר רמת קושי",
-    "easy": "קל (15 שניות)",
-    "medium": "בינוני (10 שניות)",
-    "Hard": "קשה (5 שניות)",
-    "play": "שחק"
+    "placeholder2":"הכנס סיסמה",
+    "difficultyLevel": "רמת קושי",
+    "easy": "קל",
+    "medium": "בינוני",
+    "Hard": "קשה",
+    "play": "שחק",
+    "loginError":"שם המשתמש קיים אך הסיסמה אינה נכונה. בחר שם אחר או נסה סיסמה אחרת"
+
   },
   "gameOverPage": {
     "gameOver": "נגמר המשחק :(",
-    "newGame": "משחק חדש"
+    "newGame": "משחק חדש",
+    "time`s up":"נגמר הזמן",
+    "wrong color":"טעות בצבע"
   },
   "gamePage": {
     "Hello": "שלום",
-    "highestResult1": "השיא שלך במשחק",
+    "highestResult1": "השיא שלך בשלב הזה",
     "highestResult2": "התוצאה הגבוהה ביותר שלך בסיבוב הזה",
     "start": "התחל",
-    "backBtn": "חזרה להגדרות"
+    "backBtn": "חזרה להגדרות",
+    "tableTitleUserName":"שם המשתמש",
+    "tableTitleRecord":"התוצאה הטובה ביותר",
+    "level":"שלב"
   }
 }

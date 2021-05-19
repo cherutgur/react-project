@@ -1,26 +1,33 @@
 {
   "settingPage": {
     "title":"Welcome to the simon game settings",
-    "lang":" choose language",
+    "lang":"  language",
     "English":"English",
     "Hebrew":"עברית",
     "playAs":"play as",
     "placeholder":"enter username",
-    "difficultyLevel":"Select a difficulty level",
-    "easy":"easy (15 min)",
-    "medium":"medium (10 min)",
-    "Hard":"Hard (5 min)",
-    "play":"play"
+    "placeholder2":"enter password",
+    "difficultyLevel":"Level",
+    "easy":"easy",
+    "medium":"medium",
+    "Hard":"Hard",
+    "play":"play",
+    "loginError":"Username exists but the password is incorrect. Choose a different Username or try a different password"
   },
   "gameOverPage": {
     "gameOver":"game over",
-    "newGame":"new game"
+    "newGame":"new game",
+    "time`s up":"time`s up",
+    "wrong color":"wrong color"
   },
   "gamePage":{
     "Hello":"Hello",
-    "highestResult1":"your highest result at this game",
+    "highestResult1":"your highest result at this level",
     "highestResult2":"your highest result in this round is",
     "start":"start",
-    "backBtn":"back to settings"
+    "backBtn":"back to settings",
+    "tableTitleUserName":"user name",
+    "tableTitleRecord":"record",
+    "level":"level"
   }
 }
