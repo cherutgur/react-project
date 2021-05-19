@@ -11,6 +11,8 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
   const history = useHistory();
   const [error, setError] = useState(false)
 
+
+
   const changLang = (lang) => {
     i18n.changeLanguage(lang)
   }

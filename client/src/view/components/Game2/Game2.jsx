@@ -18,8 +18,6 @@ let originalRecord;
 
 function Game2({ user, level, setUser }) {
 
-  console.log({user});
-  console.log({level});
 
   useEffect(() => {
 
@@ -331,8 +329,11 @@ function Game2({ user, level, setUser }) {
               </div>
             </div>
 
-
-            <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}><button type='submit' className='backButton button'>{t('gamePage.backBtn')}</button></Link>
+            <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}>
+              <button onClick={() => sequence = []} type='submit' className='backButton button'>
+                {t('gamePage.backBtn')}
+              </button>
+            </Link>
             <RatingTable record={record} userName={user.userName} level={level} />
 
 
