@@ -1,6 +1,6 @@
 .wrrapper {
   @include wrapper;
-  width: 53.5%;
+  width: 45vw;
   height: 80vh;
   position: relative;
   top: 50%;
@@ -46,6 +46,7 @@
   overflow: auto;
   text-align: center;
   padding-left: 2em;
+  margin: auto;
 }
 
 // wrrapper__info
@@ -57,8 +58,8 @@
 // wrrapper__button--active
 .board {
   position: absolute;
-  top: 2.5vh;
-  right: 35vw;
+  top: 10vh;
+  right: 45vw;
 }
 
 // board__clrButton

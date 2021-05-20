@@ -313,21 +313,13 @@ function Game2({ user, level, setUser }) {
         gameOver ?
           <GameOver gameOverReason={gameOver} setCanStartOver={setCanStartOver} setgameOver={setgameOver} setHighestResult={setHighestResult} />
           :
+          <>
           <div className='wrrapper'>
             <h1 className='wrrapper__title'>{t('gamePage.Hello')} {user.userName}</h1>
             <h3 className='wrrapper__info'>{t('gamePage.highestResult1')} {record}</h3>
             <h3 className='wrrapper__info'>{t('gamePage.highestResult2')} {highestResult} </h3>
 
-            <div className='board'>
-              <div id='blue' className={blueButtonClassNames} onClick={handleColorBtnClick}  ></div>
-              <div id='yellow' className={yellowButtonClassNames} onClick={handleColorBtnClick}  ></div>
-              <div id='red' className={redButtonClassNames} onClick={handleColorBtnClick}  ></div>
-              <div id='green' className={greenButtonClassNames} onClick={handleColorBtnClick} ></div>
-              <div className={startButtonClassNames} onClick={handleStartGame}>
-                {t('gamePage.start')}
-                <div className='timer'>{timer}</div>
-              </div>
-            </div>
+       
 
             <Link to="/" style={{ 'textDecoration': 'none', 'color': 'black' }}>
               <button onClick={() => sequence = []} type='submit' className='backButton button'>
@@ -338,6 +330,18 @@ function Game2({ user, level, setUser }) {
 
 
           </div>
+
+<div className='board'>
+<div id='blue' className={blueButtonClassNames} onClick={handleColorBtnClick}  ></div>
+<div id='yellow' className={yellowButtonClassNames} onClick={handleColorBtnClick}  ></div>
+<div id='red' className={redButtonClassNames} onClick={handleColorBtnClick}  ></div>
+<div id='green' className={greenButtonClassNames} onClick={handleColorBtnClick} ></div>
+<div className={startButtonClassNames} onClick={handleStartGame}>
+  {t('gamePage.start')}
+  <div className='timer'>{timer}</div>
+</div>
+</div>
+</>
       }
       {/* <label htmlFor="arrow"> play with arrows</label>
       <input
