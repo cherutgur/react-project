@@ -3,12 +3,13 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+require('dotenv').config()
 
 app.use(express.static(path.join(__dirname,'.', 'client', 'build')));
 console.log(path.join(__dirname,'.', 'client', 'build'))
 app.use(bodyParser.json())
 
-const url = "mongodb+srv://cherut:7o8hgvnQ0RGslJuN@cluster0.2kopr.mongodb.net/test";
+const url = process.env.URL;
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
