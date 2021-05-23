@@ -7,14 +7,9 @@ function GameOver({gameOverReason,setgameOver,setCanStartOver,setHighestResult})
   const { t } = useTranslation();
 
   const startAgain = () => {
-    // sequence = [];
-    
-    // setTimer(level)
     setCanStartOver(true)
     setHighestResult(0)
     setgameOver(false);
-
-    // clearInterval(timeInterval);
   }
 
   

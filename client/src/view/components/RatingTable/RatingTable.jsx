@@ -1,19 +1,16 @@
-import classNames from 'classnames';
+
 import React, {useEffect,useState} from 'react'
 // import '../RatingTable/RatingTable.scss'
 import { useTranslation } from 'react-i18next';
 
 function RatingTable({record,userName,level}) {
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [usersToRender, setUsersToRender] = useState([{userName:'loading'}])
 
   useEffect(() => {
     getUsers();
-    console.log('record change');
-    console.log({record});
-    // RateTheUsers(users);
-    // renderToTable()
+
   }, [record])
 
   const getUsers = () => {
@@ -27,8 +24,6 @@ function RatingTable({record,userName,level}) {
           if(level===5) return b.record3 - a.record3;
         })
         setUsersToRender(RatedUsers)
-        console.log('set new users');
-        console.log(users);
       }
       )
   }
@@ -36,9 +31,7 @@ function RatingTable({record,userName,level}) {
 
   return (
 
-    // 
 
-    // // table__td
     <div className='table'>
       <h1 className='table__title'>{t('gamePage.level')} {level === 15 ? 1 : level === 10 ? 2 : 3}</h1>
       <table>

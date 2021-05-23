@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 
 // components
-import Game from './view/components/Game/Game'
 import Game2 from './view/components/Game2/Game2'
 import Settings from './view/components/Settings/Settings'
 
@@ -25,10 +24,6 @@ function App() {
 
   return (
 
-    // <div className="App">
-    //     <Counter setCounter={setCounter} counter={counter}/>
-    //     <Counter2  counter={counter}/>
-    // </div>
 
     <div className="App">
       <Router>

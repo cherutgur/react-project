@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 // import '../Game2/Game2.scss'
 import {
   BrowserRouter as Router,
@@ -21,14 +21,8 @@ function Game2({ user, level, setUser }) {
 
   useEffect(() => {
 
-    console.log('7777777');
-    console.log(user);
     if (user.constructor === Object && Object.keys(user).length === 0) {
       let userName = document.cookie.split('=')[1];
-      
-    console.log(userName);
-    console.log('8888888');
-
 
       fetch('/getUserDataByName', {
         method: 'post',
@@ -39,8 +33,6 @@ function Game2({ user, level, setUser }) {
       })
         .then(response => response.json())
         .then(({userData}) => {
-          // console.log(data);
-          console.log(userData);
           setUser(userData)
 
           // setRecord(data.userData.record1)
@@ -94,7 +86,6 @@ function Game2({ user, level, setUser }) {
     setTimer(level)
     setActiveButton(false)
     sequence = [...sequence, getRandomColor()]
-    console.log(sequence);
 
     for (const color of sequence) {
       await flashAndPlayAudio(color, 250);
@@ -107,7 +98,7 @@ function Game2({ user, level, setUser }) {
   }
 
   useEffect(() => {
-    if (!runTimer) { console.log('timer stop'); return };
+    if (!runTimer) { return };
     if (timer <= 0) {
       setgameOver('time`s up')
       return
@@ -163,7 +154,7 @@ function Game2({ user, level, setUser }) {
   }
 
   const handleColorBtnClick = (e) => {
-    if (!activeButton) { console.log('butoons not active'); return };
+    if (!activeButton) { return };
     let clickedColor = e.currentTarget.id;
     checkClick(clickedColor);
   }
@@ -196,24 +187,10 @@ function Game2({ user, level, setUser }) {
         }, 1000);
       }
     } else {
-      console.log('wrong color');
-
-      // if (record > originalRecord) {
-      //   console.log(('נשבר שיא'));
-      //   updateRecord(user.userName, record)
-      // }
 
       setTimer(level)
       setRunTimer(false)
       setgameOver('wrong color')
-
-      // setgameOver('you chose the wrong color')
-      // let currentResult = sequence.length - 1;
-      // if (currentResult > highestResult) {
-      //   setHighestResult(currentResult)
-      // }
-
-
       setActiveButton(false);
       setCanStartOver(true)
       sequence = [];
@@ -234,35 +211,7 @@ function Game2({ user, level, setUser }) {
       }
     })
       .then(response => response.json())
-      .then(data => { console.log(data); console.log('update') })
   }
-
-  // const togglePlayWithArrows = (e) => {
-  //   if (e.target.checked) {
-  //     setArrows(true)
-  //     console.log('arrows');
-  //   } else {
-  //     setArrows(false)
-  //     console.log('mouse');
-  //   }
-  // }
-
-  // useCallback(
-  //   () => {
-  //     callback
-  //   },
-  //   [input],
-  // )
-  //   const handleArrows = (e) => {
-  //     console.log({arrows});
-  //     if( !arrows) return;
-  //      console.log(e.key);
-  //   }
-  //   console.log({arrows});
-
-
-  // console.log({activeButton});
-  // window.addEventListener('keydown', handleArrows);
 
   //classNames
 
@@ -298,10 +247,7 @@ function Game2({ user, level, setUser }) {
     { 'yellowFlash': !activeButton && flashColor === 'yellow' },
     { 'button yellow notActive': !activeButton && flashColor !== 'yellow' },
   );
-  // console.log(blueButtonClassNames);
-  // console.log(redButtonClassNames);
-  // console.log(greenButtonClassNames)
-  // console.log(yellowButtonClassNames);
+
 
 
 
@@ -343,98 +289,10 @@ function Game2({ user, level, setUser }) {
 </div>
 </>
       }
-      {/* <label htmlFor="arrow"> play with arrows</label>
-      <input
-        type="checkbox"
-        id="arrow"
-        name="arrow"
-        value="arrow"
-        onChange={togglePlayWithArrows}
-        // onChange={(e)=>{(e.target.checked&&activeButton)?console.log('יאפ'):console.log('nop');}}
-      /> */}
 
     </>
   )
 }
 
 export default Game2
-
-// import React, { useState,useCallback,useEffect } from 'react'
-
-// function Game2() {
-
-//   const [state1, setstate1] = useState(false);
-
-//   function handleClick() {
-//     setstate1(!state1)
-//   }
-
-//   function handleCheckBox(e) {
-//     // e.preventDefault();
-//     if(e.target.checked ){
-//       document.addEventListener('keypress',handleKeydown);
-//       console.log('addEventListener');
-//     }else{
-//       document.removeEventListener('keypress',handleKeydown);
-//       console.log('removeEventListener');
-//     }
-//   }
-
-
-//   const handleKeydown = useCallback( (e) => {
-//     e.preventDefault();
-//     console.log(state1);
-//     if(state1){
-//       console.log(e.key);
-//     }else{
-//       console.log('state false');
-//     }
-//   },[])
-
-//   const [timer, setTimer] = useState(10)
-
-//   useEffect(() => {
-//     if(timer<=0){console.log('time`s up'); return};
-//     const id = setInterval(() => {
-//       setTimer(timer-1) 
-//     }, 1000);
-//     return () => {
-//       clearInterval(id);
-//     };
-//   }, [timer])
-
-//   function change(e){
-//     console.log(e.target.value);
-
-//   }
-
-//   function click(e) {
-//     setTimer(10)
-//   }
-
-
-//   return (
-//     <>
-//       <button onClick={click}>timer</button>
-//       <input type='string' onChange={change}></input>
-//       <div>{timer}</div>;
-
-//       <button onClick={handleClick}>toggle state</button>
-//       <button onClick={handleKeydown}>handleKeydown</button>
-//       <h1>{state1?'true':'false'}</h1>
-//       {/* {console.log(state)} */}
-
-//       <label htmlFor="arrow"> add keydown listener</label>
-//      <input
-//          type="checkbox"
-//          id="arrow"
-//          name="arrow"
-//          value="arrow"
-//          onChange={handleCheckBox}
-//       />
-//     </>
-//   )
-// }
-
-// export default Game2
 

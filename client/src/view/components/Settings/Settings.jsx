@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import './Settings.scss';
 import {
   useHistory
 } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
-function Settings({ setUserName, setLanguage, setLevel, setUser }) {
-  // user, setUser, selectedOption, setSelectedOption, loginUser
+function Settings({ setLevel, setUser }) {
   const { t, i18n } = useTranslation();
   const history = useHistory();
   const [error, setError] = useState(false)
@@ -41,16 +40,10 @@ function Settings({ setUserName, setLanguage, setLevel, setUser }) {
     })
       .then(response => response.json())
       .then((data) => {
-        console.log({ data });
         if (data.userData) {
           setUser(data.userData);
-          console.log('user set');
           history.push("/simon");
         } else { setError(true) }
-
-
-        // setRecord(data.userData.record1)
-        // originalRecord = data.userData.record1;
       });
   }
 

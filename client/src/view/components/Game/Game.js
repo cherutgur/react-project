@@ -13,7 +13,7 @@ let originalRecord;
 function Game({ states }) {
 
   const { t } = useTranslation();
-  let { user, userName, language, level, setUserName, setLanguage, setLevel } = states;
+  let { user, language, level } = states;
   const [timer, setTimer] = useState(level);
   const [flashColor, setFlashColor] = useState('');
   const [gameOver, setgameOver] = useState(false);
@@ -25,17 +25,6 @@ function Game({ states }) {
   let timeInterval;
 
 
-  // useEffect(() => {
-
-  //   fetch('/getUserData')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //     });
-
-  // }, [])
-
-
   useEffect(() => {
     setRecord(user.record1)
     originalRecord = user.record1;
@@ -43,17 +32,16 @@ function Game({ states }) {
 
 
   function startByButton() {
-    setCanStartOver(false) //Disable the restart option by the start button
+    setCanStartOver(false) 
     startGame()
   }
 
 
   const startGame = async () => {
 
-    //The computer produces a sequence of colors and displays it
-    setCanClick(false); //to disable the option to click the colors while the sequence is running
+
+    setCanClick(false); 
     sequence = [...sequence, getRandomColor()]
-    console.log(sequence);
 
     for (const color of sequence) {
       await flashAndPlayAudio(color, 250);
@@ -62,10 +50,7 @@ function Game({ states }) {
     sequenceCopyArray = [...sequence];
 
     setCanClick(true)
-    // playWithArrows ? setCanClick(false) : setCanClick(true);
-    
-    //timer
-    //When the computer finishes displaying the sequence, the timer starts running and stops by some conditions
+
     timeInterval = setInterval(myTimer, 1000);
     let updateTime = level;
 
@@ -75,13 +60,10 @@ function Game({ states }) {
 
       if (updateTime === 0 || sequenceCopyArray.length === 0 || gameOver === 'you chose the wrong color') {
         clearInterval(timeInterval);
-        console.log({ originalRecord }, { record });
         if (record > originalRecord) {
-          console.log(('נשבר שיא'));
 
           updateRecord(user , record)
 
-        console.log({ gameOver });
     
         setTimer(level);
         if (updateTime === 0) {
@@ -108,7 +90,6 @@ function Game({ states }) {
       }
     })
       .then(response => response.json())
-      .then(data => console.log(data))
    }
   }
 
@@ -160,21 +141,15 @@ function Game({ states }) {
 
 
 
-    // console.log(event.type);
 
     if (event.type === 'click') {
       if (!canClick) return;
-      console.log('click');
       let clickedColor = event.currentTarget.id;
       clickColor(clickedColor)
 
 
     } else {
-      console.log('type');
-      console.log(event.key);
-      console.log(color);
       let clickedColor = color;
-      console.log(clickedColor);
 
       clickColor(clickedColor)
     }
@@ -202,7 +177,6 @@ function Game({ states }) {
       }
     } else {
       if (record > originalRecord) {
-        console.log(('נשבר שיא'));
 
         fetch('/updateRecord', {
           method: 'put',
@@ -215,7 +189,6 @@ function Game({ states }) {
           }
         })
           .then(response => response.json())
-          .then(data => console.log(data))
       }
 
 
@@ -263,7 +236,6 @@ function Game({ states }) {
   }
 
   const addArrows = (event) => {
-    console.log('key');
     let keypress = event.key;
     if (keypress === 'ArrowUp') {
       userChoose(event, 'blue')
